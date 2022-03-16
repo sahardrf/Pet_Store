@@ -106,7 +106,6 @@ login (username, password) async {
     DBCrypt dBCrypt = DBCrypt();
     var res = json.decode(response.body);
     var hashedPwd = res['password'];
-    // dBCrypt.checkpw(password, hashedPwd);
 
     if (dBCrypt.checkpw(password, hashedPwd)){
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
@@ -120,32 +119,6 @@ login (username, password) async {
     }
     
   }
-//   else{
-//     userNotFoundDialog(context);
-//   }
-
-// }
-
-// get_user_info (username, password) async {
-//   var queryParams = {
-//     'username': username,
-//     'password': password,
-//     };
-//   var URL = 'https://api.training.testifi.io/api/v3/user/login';
-//   String queryString = Uri(queryParameters: queryParams).query;
-//   var requestUrl = URL + '?' + queryString;
-//   Map<String, String> headers = {"Content-type": "application/json"};
-//   final response = await http.get(Uri.parse(requestUrl), headers: headers);
-//   print(requestUrl);
-//   print(response);
-//   if (response.statusCode == 200){
-//     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-//   }
-//   else{
-//     signInFailedError(context);
-//   }
-
-// }
 
 signInFailedError(BuildContext context) {
 
