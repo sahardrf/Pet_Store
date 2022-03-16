@@ -124,7 +124,7 @@ signInFailedError(BuildContext context) {
 
   // set up the button
   Widget okButton = TextButton(
-    child: Text("OKg"),
+    child: Text("OK"),
     onPressed: () => Navigator.pop(context) ,
   );
 
