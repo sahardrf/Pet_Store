@@ -75,7 +75,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Login'),
                   onPressed: () {
                     if(nameController.text.isEmpty || passwordController.text.isEmpty){
-                      emptyFieldsDialog(context);
+                      SignInFailedDialog(context, "Please enter your username and password.");
                     }
                     else{
                       login(nameController.text,passwordController.text);
@@ -111,16 +111,16 @@ login (username, password) async {
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
     }
     else{
-      signInFailedError(context);
+      SignInFailedDialog(context, "Username or Password are wrong.");
     }
     }
     else{
-      userNotFoundDialog(context);
+      SignInFailedDialog(context, "Username is not registered.");
     }
     
   }
 
-signInFailedError(BuildContext context) {
+SignInFailedDialog(BuildContext context, String message) {
 
   // set up the button
   Widget okButton = TextButton(
@@ -131,58 +131,7 @@ signInFailedError(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Sign In Failed"),
-    content: Text("Username or Password are wrong."),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-emptyFieldsDialog(BuildContext context) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () => Navigator.pop(context) ,
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Empty Fields"),
-    content: Text("Please enter your username and password."),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-userNotFoundDialog(BuildContext context) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () => Navigator.pop(context) ,
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Sign In Failed"),
-    content: Text("Username is not registered."),
+    content: Text(message),
     actions: [
       okButton,
     ],
