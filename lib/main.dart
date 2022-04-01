@@ -75,7 +75,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Login'),
                   onPressed: () {
                     if(nameController.text.isEmpty || passwordController.text.isEmpty){
-                      emptyFieldsDialog(context);
+                      SignInFailedDialog(context, "Please enter your username and password.");
                     }
                     else{
                       login(nameController.text,passwordController.text);
@@ -106,99 +106,21 @@ login (username, password) async {
     DBCrypt dBCrypt = DBCrypt();
     var res = json.decode(response.body);
     var hashedPwd = res['password'];
-    // dBCrypt.checkpw(password, hashedPwd);
 
     if (dBCrypt.checkpw(password, hashedPwd)){
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
     }
     else{
-      signInFailedError(context);
+      SignInFailedDialog(context, "Username or Password are wrong.");
     }
     }
     else{
-      userNotFoundDialog(context);
+      SignInFailedDialog(context, "Username is not registered.");
     }
     
   }
-//   else{
-//     userNotFoundDialog(context);
-//   }
 
-// }
-
-// get_user_info (username, password) async {
-//   var queryParams = {
-//     'username': username,
-//     'password': password,
-//     };
-//   var URL = 'https://api.training.testifi.io/api/v3/user/login';
-//   String queryString = Uri(queryParameters: queryParams).query;
-//   var requestUrl = URL + '?' + queryString;
-//   Map<String, String> headers = {"Content-type": "application/json"};
-//   final response = await http.get(Uri.parse(requestUrl), headers: headers);
-//   print(requestUrl);
-//   print(response);
-//   if (response.statusCode == 200){
-//     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-//   }
-//   else{
-//     signInFailedError(context);
-//   }
-
-// }
-
-signInFailedError(BuildContext context) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OKg"),
-    onPressed: () => Navigator.pop(context) ,
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Sign In Failed"),
-    content: Text("Username or Password are wrong."),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-emptyFieldsDialog(BuildContext context) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () => Navigator.pop(context) ,
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Empty Fields"),
-    content: Text("Please enter your username and password."),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-userNotFoundDialog(BuildContext context) {
+SignInFailedDialog(BuildContext context, String message) {
 
   // set up the button
   Widget okButton = TextButton(
@@ -209,7 +131,7 @@ userNotFoundDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Sign In Failed"),
-    content: Text("Username is not registered."),
+    content: Text(message),
     actions: [
       okButton,
     ],
