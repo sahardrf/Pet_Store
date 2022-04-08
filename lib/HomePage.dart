@@ -1,4 +1,11 @@
+import 'package:flutter/foundation.dart';
+
+import 'API.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:pet_store/pet.dart';
+import 'package:pet_store/API.dart';
+
 
 
 class HomePage extends StatelessWidget {
@@ -7,82 +14,70 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Pet Store',
         home: PetStoreHomePage(),
 );
 
   }
 }
 
- class PetStoreHomePage extends StatefulWidget {
-    const PetStoreHomePage({ Key? key }) : super(key: key);
-  
-    @override
-    _PetStoreHomePageState createState() => _PetStoreHomePageState();
-  }
-  
-  class _PetStoreHomePageState extends State<PetStoreHomePage> {
-  int _selectedIndex = 0;
-  static final List<Widget> _pages = <Widget>[
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("User Home Page"),
-        ],
-      ),
-    ),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("List of Pets"),
-        ],
-      ),
-    ),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("List of Stores"),
-        ],
-      ),
-    ),
-  ];
+class PetStoreHomePage extends StatefulWidget {
+  const PetStoreHomePage({ Key? key }) : super(key: key);
 
-  void _onItemTapped(int index) {
-    setState(
-      () {
-        _selectedIndex = index;
-      },
-    );
-  }
+  @override
+  _PetStoreHomePageState createState() => _PetStoreHomePageState();
+}
+
+class _PetStoreHomePageState extends State<PetStoreHomePage> {
+  // late Future <List<dynamic>> pet_list;
+
+  // @override
+  // initState() {
+  //   super.initState();
+  //   pet_list = API.get_pets();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pet Store Home Page'),
+        title: Text("Pets List"),
       ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pets),
-            label: "Pet",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_grocery_store),
-            label: "Store",
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      body: Center( 
+    child: FutureBuilder<List<dynamic>>(
+        future: API.get_pets(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, index) {
+                  var id = snapshot.data![index]['id'].toString();
+                  var name = snapshot.data![index]['name'].toString();
+                  var category = snapshot.data![index]['category']['name'].toString();
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.indigo,
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: ListTile(
+                      leading: Text(id),
+                      title: Text(name),
+                      subtitle: Text(category)
+                      ),
+                      // trailing: Text(Category),
+                    // ),
+                  );
+                },
+              ),
+            );
+          }
+          return CircularProgressIndicator();
+        },
       ),
-    );
+    ),
+      );
   }
 }
