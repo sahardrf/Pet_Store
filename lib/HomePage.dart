@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_store/widgets/get_pet_list.dart';
+import 'package:pet_store/widgets/get_store_data.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
-          Text("List of Stores"),
+          Expanded(child: Get_Store_Data())
         ],
       ),
     ),
