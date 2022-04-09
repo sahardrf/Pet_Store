@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import '../API.dart';
+import '../webservice/API.dart';
+import '../models/pet.dart';
 
 class Get_Pet_List extends StatelessWidget {
+
   const Get_Pet_List({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Center( 
-    child: FutureBuilder<List<dynamic>>(
+    child: FutureBuilder<List<Pet>>(
         future: API.get_pets(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<Pet>? pet_data = snapshot.data;
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemCount: snapshot.data?.length,
+                itemCount: pet_data?.length,
                 itemBuilder: (context, index) {
-                  var id = snapshot.data![index]['id'].toString();
-                  var name = snapshot.data![index]['name'].toString();
-                  var category = snapshot.data![index]['category']['name'].toString();
+                  var id = pet_data![index].id.toString();
+                  var name = pet_data[index].name.toString();
+                  var category = pet_data[index].category.toString();
                   return Card(
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
