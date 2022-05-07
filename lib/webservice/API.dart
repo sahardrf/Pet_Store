@@ -6,6 +6,16 @@ import 'package:pet_store/models/pet.dart';
 
 class API {
 
+// static Future <List<dynamic>> get_pets() async {
+//   final response =
+//       await http.get(Uri.parse("https://api.training.testifi.io/api/v3/pet/findByStatus?status=available"));
+//   if (response.statusCode == 200) {
+//     List jsonResponse = json.decode(response.body);
+//       return jsonResponse;
+//   } else {
+//     throw Exception('Unexpected error occured!');
+//   }
+// }
 static Future <List<Pet>> get_pets() async {
   final response =
       await http.get(Uri.parse("https://api.training.testifi.io/api/v3/pet/findByStatus?status=available"));
@@ -16,6 +26,7 @@ static Future <List<Pet>> get_pets() async {
     throw Exception('Unexpected error occured!');
   }
 }
+
 
 static Future<List> get_store_data() async {
   final response =
