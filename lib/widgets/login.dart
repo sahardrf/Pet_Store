@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pet_store/HomePage.dart';
 import 'package:http/http.dart' as http;
 import 'package:dbcrypt/dbcrypt.dart';
-
  
-void main() => runApp(const MyApp());
  
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class login extends StatelessWidget {
+  const login({Key? key}) : super(key: key);
  
   static const String _title = 'Pet Store';
  

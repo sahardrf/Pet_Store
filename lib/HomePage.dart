@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pet_store/widgets/get_pet_cards.dart';
+import 'package:pet_store/widgets/get_pet_listview.dart';
+import 'package:pet_store/widgets/get_store_data.dart';
 
+void main() => runApp(const HomePage());
+ 
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key? key }) : super(key: key);
@@ -7,81 +12,72 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Pet Store',
-        home: PetStoreHomePage(),
-);
-
+      title: 'Pet Store',
+      home: PetStoreHomePage(),
+    );
   }
 }
 
- class PetStoreHomePage extends StatefulWidget {
-    const PetStoreHomePage({ Key? key }) : super(key: key);
-  
-    @override
-    _PetStoreHomePageState createState() => _PetStoreHomePageState();
-  }
-  
-  class _PetStoreHomePageState extends State<PetStoreHomePage> {
-  int _selectedIndex = 0;
-  static final List<Widget> _pages = <Widget>[
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("User Home Page"),
-        ],
-      ),
-    ),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("List of Pets"),
-        ],
-      ),
-    ),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text("List of Stores"),
-        ],
-      ),
-    ),
-  ];
+class PetStoreHomePage extends StatefulWidget {
+  const PetStoreHomePage({ Key? key }) : super(key: key);
 
-  void _onItemTapped(int index) {
-    setState(
-      () {
-        _selectedIndex = index;
-      },
-    );
+  @override
+  _PetStoreHomePageState createState() => _PetStoreHomePageState();
+}
+
+class _PetStoreHomePageState extends State<PetStoreHomePage> {
+  bool status = false;
+  late List<bool> isSelected;
+
+
+  @override
+  void initState() {
+      isSelected = [true, false];
+      super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget get_pet_list(){
+      return Expanded(child: Get_Pet_List());
+    }
+        Widget get_pet_cards(){
+      return Expanded(child: Get_Pet_Cards());
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pet Store Home Page'),
+        title: Text('Home Page'),
       ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+      body: Center(
+        child: Column(children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: ToggleButtons(children: const <Widget>[
+                  Icon(Icons.format_list_bulleted),
+                  Icon(Icons.featured_play_list),
+        ], 
+        isSelected: isSelected,
+        onPressed: (int index){
+          setState(() {
+            for (int i = 0; i < isSelected.length; i++) {
+              isSelected[i] = i == index;
+              status = !status;
+            }
+          });
+        },
+        
+            color: Color.fromARGB(255, 99, 98, 98),
+            selectedColor: Colors.white,
+            fillColor: Color.fromARGB(255, 99, 98, 98),
+            // selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
+            // borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderWidth: 0,
+        ),
+        ),
+          Expanded(child: (isSelected[0] == true)? Get_Pet_List(): Get_Pet_Cards()),
+          // const Expanded(child: Get_Pet_List())
+          ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pets),
-            label: "Pet",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_grocery_store),
-            label: "Store",
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }
