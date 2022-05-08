@@ -46,7 +46,19 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
     }
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         title: Text('Home Page'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed:(){
+                //do something
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(children: [
@@ -61,7 +73,6 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
           setState(() {
             for (int i = 0; i < isSelected.length; i++) {
               isSelected[i] = i == index;
-              status = !status;
             }
           });
         },
@@ -78,6 +89,17 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
           // const Expanded(child: Get_Pet_List())
           ],
           ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: Colors.indigo,
+        child: new IconTheme(
+    data: new IconThemeData(
+        color: Colors.white), 
+    child: new Icon(Icons.add),
+),
       ),
     );
   }
