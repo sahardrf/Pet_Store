@@ -90,17 +90,17 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
           ],
           ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: Colors.indigo,
-        child: new IconTheme(
-    data: new IconThemeData(
-        color: Colors.white), 
-    child: new Icon(Icons.add),
-),
-      ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//           // Add your onPressed code here!
+//         },
+//         backgroundColor: Colors.indigo,
+//         child: new IconTheme(
+//     data: new IconThemeData(
+//         color: Colors.white), 
+//     child: new Icon(Icons.add),
+// ),
+//       ),
     );
   }
 }
