@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pet_store/Search.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
 import 'package:pet_store/widgets/get_store_data.dart';
-import 'package:pet_store/Search.dart';
-// import 'package:pet_store/AddPet.dart';
-
 
 void main() => runApp(const HomePage());
  
