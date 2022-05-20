@@ -12,31 +12,43 @@ Image image(String thumbnail) {
           }
         Image image = Image.memory(Base64Decoder().convert(thumbnail));
         return image;
-      }
+}
 
 
-class Get_Pet_Cards extends StatelessWidget {
+class Get_Pet_Cards extends StatefulWidget {
+  String? selectedURL;
+  Get_Pet_Cards( {this.selectedURL, Key? key }) : super(key: key);
 
-  const Get_Pet_Cards({ Key? key }) : super(key: key);
+  // const Get_Pet_Cards({ Key? key, url }) : super(key: key);
   
-Image imageFromBase64String(String base64String) {
-  return Image.memory(base64Decode(base64String));
+  @override
+  State<Get_Pet_Cards> createState() => _Get_Pet_CardsState();
 }
 
-Uint8List dataFromBase64String(String base64String) {
-  return base64Decode(base64String);
-}
 
-String base64String(Uint8List data) {
-  return base64Encode(data);
-}
+class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
+
+  
+  Image imageFromBase64String(String base64String) {
+    return Image.memory(base64Decode(base64String));
+  }
+
+  Uint8List dataFromBase64String(String base64String) {
+    return base64Decode(base64String);
+  }
+
+  String base64String(Uint8List data) {
+    return base64Encode(data);
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('GET PET CARDS');
+    print(widget.selectedURL);
     return MaterialApp(
       home: Center( 
     child: FutureBuilder<List<Pet>>(
-        future: API.get_pets(),
+        future: API.get_pets(widget.selectedURL),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Pet>? pet_data = snapshot.data;
