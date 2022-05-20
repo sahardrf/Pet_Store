@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
 import 'package:pet_store/widgets/get_store_data.dart';
+import 'package:pet_store/Search.dart';
+// import 'package:pet_store/AddPet.dart';
+
 
 void main() => runApp(const HomePage());
  
@@ -11,7 +14,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Pet Store',
       home: PetStoreHomePage(),
     );
@@ -19,14 +22,18 @@ class HomePage extends StatelessWidget {
 }
 
 class PetStoreHomePage extends StatefulWidget {
-  const PetStoreHomePage({ Key? key }) : super(key: key);
+  // const PetStoreHomePage({ Key? key }) : super(key: key);
+  // final String url = '';
+  final String? selectedURL;
+  PetStoreHomePage({
+    this.selectedURL,
+  });
 
   @override
   _PetStoreHomePageState createState() => _PetStoreHomePageState();
 }
 
 class _PetStoreHomePageState extends State<PetStoreHomePage> {
-  bool status = false;
   late List<bool> isSelected;
 
 
@@ -38,12 +45,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget get_pet_list(){
-      return Expanded(child: Get_Pet_List());
-    }
-        Widget get_pet_cards(){
-      return Expanded(child: Get_Pet_Cards());
-    }
+    print('HOME PAGE');
+    print(widget.selectedURL);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -55,16 +58,25 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               color: Colors.white,
             ),
             onPressed:(){
-                //do something
+                Navigator.push(context, MaterialPageRoute(builder: (_) => Search()));
             },
           ),
         ],
       ),
       body: Center(
         child: Column(children: [
+          const Text("   "),
           Align(
             alignment: Alignment.topCenter,
-            child: ToggleButtons(children: const <Widget>[
+            child: ToggleButtons(
+              color: Color.fromARGB(255, 99, 98, 98),
+              borderColor: Color.fromARGB(255, 99, 98, 98),
+              fillColor: Color.fromARGB(255, 99, 98, 98),
+              borderWidth: 1,
+              selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
+              selectedColor: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              children: const <Widget>[
                   Icon(Icons.format_list_bulleted),
                   Icon(Icons.featured_play_list),
         ], 
@@ -77,19 +89,26 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
           });
         },
         
-            color: Color.fromARGB(255, 99, 98, 98),
-            selectedColor: Colors.white,
-            fillColor: Color.fromARGB(255, 99, 98, 98),
-            // selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
-            // borderRadius: BorderRadius.all(Radius.circular(5)),
-            borderWidth: 0,
         ),
         ),
-          Expanded(child: (isSelected[0] == true)? Get_Pet_List(): Get_Pet_Cards()),
+        
+        Expanded(child: (isSelected[0] == true)? Get_Pet_List(selectedURL: widget.selectedURL): Get_Pet_Cards(selectedURL: widget.selectedURL)),
+      //   Container(
+      //   padding: const EdgeInsets.all(20),
+      //   child: Center(
+      //     child: Text(
+      //       "Welcome ${widget.selectedURL}",
+      //       style: TextStyle(
+      //         fontSize: 25,
+      //       ),
+      //     ),
+      //   ),
+      // ),
           // const Expanded(child: Get_Pet_List())
           ],
           ),
       ),
+      
 //       floatingActionButton: FloatingActionButton(
 //         onPressed: () {
 //           // Add your onPressed code here!
@@ -102,5 +121,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
 // ),
 //       ),
     );
+    
   }
 }
+
+// = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available'
