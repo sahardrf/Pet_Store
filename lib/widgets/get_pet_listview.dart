@@ -2,16 +2,26 @@ import 'package:flutter/material.dart';
 import '../webservice/API.dart';
 import '../models/pet.dart';
 
-class Get_Pet_List extends StatelessWidget {
+class Get_Pet_List extends StatefulWidget {
+  String? selectedURL;
+  Get_Pet_List( {this.selectedURL, Key? key }) : super(key: key);
+  
 
-  const Get_Pet_List({ Key? key }) : super(key: key);
+  @override
+  State<Get_Pet_List> createState() => _Get_Pet_ListState();
+}
+
+class _Get_Pet_ListState extends State<Get_Pet_List> {
+  final String url = '';
 
   @override
   Widget build(BuildContext context) {
+    print('GET PET LIST');
+    print(widget.selectedURL);
     return MaterialApp(
       home: Center( 
     child: FutureBuilder<List<Pet>>(
-        future: API.get_pets(),
+        future: API.get_pets(widget.selectedURL),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Pet>? pet_data = snapshot.data;
