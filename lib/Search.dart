@@ -132,17 +132,10 @@ select_url(first_search_filter, second_search_filter){
       String t, tURL = '';
       String url='';
       for (var i = 0; i < tags.length; i++) {
-        // t = (tags[i]).toString();
         tURL = tURL + 'tags='+ (tags[i]).toString() +'&';
         print(tURL);
         url = baseURL+tURL;
-        // var temp = tURL.toString();
-        // url = temp + tURL;
-      //   if (i == (tags.length)-1){
-      //     tURL = 'tags='+t;
-      // }
         }
-        
         return url;
       }
     
