@@ -129,18 +129,20 @@ select_url(first_search_filter, second_search_filter){
     else if (first_search_filter[2] == true){
       String baseURL = 'https://api.training.testifi.io/api/v3/pet/findByTags?';
       var tags = second_search_filter.split(' ');
-      var t, tURL;
-      var url;
+      String t, tURL = '';
+      String url='';
       for (var i = 0; i < tags.length; i++) {
-        t = (tags[i]).toString();
-        tURL = 'tags='+t+'&';
-        url= (url.toString()) + (tURL.toString());
-        url = url.toString();
+        // t = (tags[i]).toString();
+        tURL = tURL + 'tags='+ (tags[i]).toString() +'&';
+        print(tURL);
+        url = baseURL+tURL;
+        // var temp = tURL.toString();
+        // url = temp + tURL;
       //   if (i == (tags.length)-1){
       //     tURL = 'tags='+t;
       // }
         }
-        url = (baseURL+url).toString();
+        
         return url;
       }
     
