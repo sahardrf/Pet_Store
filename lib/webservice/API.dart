@@ -5,26 +5,41 @@ import 'package:pet_store/models/pet.dart';
 
 
 class API {
+  String? selectedURL;
 
-// static Future <List<dynamic>> get_pets() async {
-//   final response =
-//       await http.get(Uri.parse("https://api.training.testifi.io/api/v3/pet/findByStatus?status=available"));
-//   if (response.statusCode == 200) {
-//     List jsonResponse = json.decode(response.body);
-//       return jsonResponse;
-//   } else {
-//     throw Exception('Unexpected error occured!');
-//   }
-// }
-static Future <List<Pet>> get_pets() async {
-  final response =
-      await http.get(Uri.parse("https://api.training.testifi.io/api/v3/pet/findByStatus?status=available"));
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((pet) => new Pet.fromJson(pet)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
-  }
+  // API(this.selectedURL);
+
+  static Future <List<Pet>> get_pets(selectedURL) async {
+    // String url = '';
+    // switch (query) {
+    //   case 0:
+    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=available";
+    //     break;
+    //   case 1:
+    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=pending";
+    //     break;
+    //   case 2:
+    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=sold";
+    //     break;
+    // }
+    selectedURL ??= 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
+    String idURL = 'https://api.training.testifi.io/api/v3/pet/';
+    print('API');
+    print(selectedURL);
+    final response =
+        await http.get(Uri.parse(selectedURL));
+
+        
+    if (response.statusCode == 200) {
+      var Res = response.body;
+      if ('${Res[0]}' != '['){
+        Res = '[' + response.body +']';
+      }
+        List jsonResponse = json.decode(Res);
+        return jsonResponse.map((pet) => new Pet.fromJson(pet)).toList();
+    } else {
+      throw Exception('Unexpected error occured!');
+    }
 }
 
 
