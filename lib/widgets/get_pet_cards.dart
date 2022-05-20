@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pet_store/HomePage.dart';
+import 'package:pet_store/Search.dart';
 import '../webservice/API.dart';
 import '../models/pet.dart';
 import 'dart:convert';
@@ -52,9 +54,21 @@ class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Pet>? pet_data = snapshot.data;
+            print(pet_data?.length);
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: PageView.builder(
+              child: (pet_data == 0)? 
+              AlertDialog(
+                title: Text("Failed"),
+                content: Text('No Pets Found. Please try different search options.'),
+                actions: [
+                  TextButton(
+                    child: Text("OK"),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Expanded(child: Get_Pet_Cards()))) ,
+                  )
+                ],
+              )
+            :PageView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: pet_data?.length,
                 itemBuilder: (context, index) {
@@ -96,4 +110,6 @@ class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
     ), 
     );
   }
+
+
 }

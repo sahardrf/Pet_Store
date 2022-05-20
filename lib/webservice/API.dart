@@ -38,7 +38,8 @@ class API {
         List jsonResponse = json.decode(Res);
         return jsonResponse.map((pet) => new Pet.fromJson(pet)).toList();
     } else {
-      throw Exception('Unexpected error occured!');
+      return [];
+      
     }
 }
 
