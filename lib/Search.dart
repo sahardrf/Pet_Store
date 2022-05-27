@@ -146,15 +146,6 @@ class _SearchState extends State<Search> {
                                             ),
                                             (route) => false,
                                           );
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => PetStoreHomePage(
-                  //       selectedURL: url,
-                  //     ),
-                  //   ),
-                  // );
-                // pass url to homepage screen
               }
             ),
         ],
@@ -179,12 +170,10 @@ select_url(first_search_filter, second_search_filter){
         return url;
       }
     }
-    
     else if (first_search_filter[1] == true){
       url = ('https://api.training.testifi.io/api/v3/pet/'+(second_search_filter)).toString();
       return url;
     }
-
     else if (first_search_filter[2] == true){
       String baseURL = 'https://api.training.testifi.io/api/v3/pet/findByTags?';
       var tags = second_search_filter.split(' ');
@@ -201,13 +190,6 @@ select_url(first_search_filter, second_search_filter){
     else {
       print('NO AVAILABLE FILTERS');
     }
-  
-    // else if(first_search_filter[1] == true){}
-    // else if(first_search_filter[2] == true){}
 }
-
-bool equalsIgnoreCase(String a, String b) =>
-    (a == null && b == null) ||
-    (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 
     }
