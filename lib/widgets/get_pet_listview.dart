@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Search.dart';
 import '../webservice/API.dart';
 import '../models/pet.dart';
-import 'package:pet_store/HomePage.dart';
+import 'package:pet_store/main.dart';
 
 
 class Get_Pet_List extends StatefulWidget {
