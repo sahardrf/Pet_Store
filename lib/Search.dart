@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/HomePage.dart';
+import 'package:pet_store/main.dart';
+import 'package:flutter/services.dart';
+
 
 class Search extends StatefulWidget {
   const Search({ Key? key }) : super(key: key);
@@ -11,6 +13,12 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController mycontroller = TextEditingController();
   late List<bool> isSelected;
+  String dropdownvalue = 'Available';
+  var items = [
+    'Available',
+    'Pending',
+    'Sold',
+  ];
 
 
   @override
@@ -72,13 +80,50 @@ class _SearchState extends State<Search> {
                 isSelected: isSelected,
                 ),
             ),
+            Container(child: (isSelected[0]==true)? 
+            DropdownButton(
+                
+              // Initial Value
+              value: dropdownvalue,
+                
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),    
+                
+              // Array list of items
+              items: items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) { 
+                setState(() {
+                  dropdownvalue = newValue!;
+                });
+              },
+            )
+            :(isSelected[1]==true)? 
             TextField(
                 controller: mycontroller,
                 decoration: InputDecoration(
-                  labelText: 'Enter Name',
-                  hintText: 'Enter Your Name',
-                ),
+                  labelText: 'Enter ID',
+                  ),
+                  keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
+ // Only numbers can be entered
+              )
+            :TextField(
+                controller: mycontroller,
+                decoration: InputDecoration(
+                  labelText: 'Enter Tags',
+                  ),
               ),
+              ),
+
             // Expanded(child: (isSelected[0]== true)? TextField: (isSelected[1]== true)? TextField:TextField),	
             FlatButton(
               child: Text('Search', style: TextStyle(fontSize: 17.0),),  
@@ -107,15 +152,16 @@ class _SearchState extends State<Search> {
 select_url(first_search_filter, second_search_filter){
   String url;
     if(first_search_filter[0] == true){
-      if(second_search_filter == 'available'){
+      second_search_filter = dropdownvalue;
+      if(second_search_filter == 'Available'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
         return url;
       }
-      else if(second_search_filter == 'pending'){
+      else if(second_search_filter == 'Pending'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=pending';
         return url;
       }
-      else if(second_search_filter == 'sold'){
+      else if(second_search_filter == 'Sold'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=sold';
         return url;
       }
