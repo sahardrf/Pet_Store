@@ -33,6 +33,13 @@ class _SearchState extends State<Search> {
         appBar: AppBar(
             backgroundColor: Colors.indigo,
             title: Text('Search Pets'),
+            leading: GestureDetector(
+              child: Icon(Icons.arrow_back_ios, color: Colors.white,),
+              onTap: (){
+                Navigator.pop(context);
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
+            ),
         ),
         body: Center(
         child: Column(children: [
@@ -133,14 +140,20 @@ class _SearchState extends State<Search> {
                   var url = select_url(isSelected, mycontroller.text);
                   print('SEARCH');
                   print(url);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PetStoreHomePage(
-                        selectedURL: url,
-                      ),
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) => PetStoreHomePage(selectedURL: url,),
+                                            ),
+                                            (route) => false,
+                                          );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PetStoreHomePage(
+                  //       selectedURL: url,
+                  //     ),
+                  //   ),
+                  // );
                 // pass url to homepage screen
               }
             ),
