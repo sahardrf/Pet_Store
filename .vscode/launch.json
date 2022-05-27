@@ -8,7 +8,7 @@
             "name": "pet_store",
             "request": "launch",
             "type": "dart",
-            "program": "lib/HomePage.dart"
+            "program": "lib/main.dart"
         },
         {
             "name": "pet_store (profile mode)",

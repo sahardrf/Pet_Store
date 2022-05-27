@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/HomePage.dart';
+import 'package:pet_store/main.dart';
+import 'package:flutter/services.dart';
+
 
 class Search extends StatefulWidget {
   const Search({ Key? key }) : super(key: key);
@@ -11,6 +13,12 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController mycontroller = TextEditingController();
   late List<bool> isSelected;
+  String? dropdownvalue;
+  var items = [
+    'Available',
+    'Pending',
+    'Sold',
+  ];
 
 
   @override
@@ -25,6 +33,13 @@ class _SearchState extends State<Search> {
         appBar: AppBar(
             backgroundColor: Colors.indigo,
             title: Text('Search Pets'),
+            leading: GestureDetector(
+              child: Icon(Icons.arrow_back_ios, color: Colors.white,),
+              onTap: (){
+                Navigator.pop(context);
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
+            ),
         ),
         body: Center(
         child: Column(children: [
@@ -72,13 +87,50 @@ class _SearchState extends State<Search> {
                 isSelected: isSelected,
                 ),
             ),
+            Container(child: (isSelected[0]==true)? 
+            DropdownButton(
+              hint: Text('Select Status'),
+              // Initial Value
+              value: dropdownvalue,
+                
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),    
+                
+              // Array list of items
+              items: items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) { 
+                setState(() {
+                  dropdownvalue = newValue!;
+                });
+              },
+            )
+            :(isSelected[1]==true)? 
             TextField(
                 controller: mycontroller,
                 decoration: InputDecoration(
-                  labelText: 'Enter Name',
-                  hintText: 'Enter Your Name',
-                ),
+                  labelText: 'Enter ID',
+                  ),
+                  keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
+ // Only numbers can be entered
+              )
+            :TextField(
+                controller: mycontroller,
+                decoration: InputDecoration(
+                  labelText: 'Enter Tags',
+                  ),
               ),
+              ),
+
             // Expanded(child: (isSelected[0]== true)? TextField: (isSelected[1]== true)? TextField:TextField),	
             FlatButton(
               child: Text('Search', style: TextStyle(fontSize: 17.0),),  
@@ -88,15 +140,12 @@ class _SearchState extends State<Search> {
                   var url = select_url(isSelected, mycontroller.text);
                   print('SEARCH');
                   print(url);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PetStoreHomePage(
-                        selectedURL: url,
-                      ),
-                    ),
-                  );
-                // pass url to homepage screen
+                  Navigator.pushAndRemoveUntil(context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) => PetStoreHomePage(selectedURL: url,),
+                                            ),
+                                            (route) => false,
+                                          );
               }
             ),
         ],
@@ -107,25 +156,24 @@ class _SearchState extends State<Search> {
 select_url(first_search_filter, second_search_filter){
   String url;
     if(first_search_filter[0] == true){
-      if(second_search_filter == 'available'){
+      second_search_filter = dropdownvalue;
+      if(second_search_filter == 'Available'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
         return url;
       }
-      else if(second_search_filter == 'pending'){
+      else if(second_search_filter == 'Pending'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=pending';
         return url;
       }
-      else if(second_search_filter == 'sold'){
+      else if(second_search_filter == 'Sold'){
         url = 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=sold';
         return url;
       }
     }
-    
     else if (first_search_filter[1] == true){
       url = ('https://api.training.testifi.io/api/v3/pet/'+(second_search_filter)).toString();
       return url;
     }
-
     else if (first_search_filter[2] == true){
       String baseURL = 'https://api.training.testifi.io/api/v3/pet/findByTags?';
       var tags = second_search_filter.split(' ');
@@ -142,13 +190,6 @@ select_url(first_search_filter, second_search_filter){
     else {
       print('NO AVAILABLE FILTERS');
     }
-  
-    // else if(first_search_filter[1] == true){}
-    // else if(first_search_filter[2] == true){}
 }
-
-bool equalsIgnoreCase(String a, String b) =>
-    (a == null && b == null) ||
-    (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 
     }

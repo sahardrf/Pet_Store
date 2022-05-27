@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/HomePage.dart';
+import 'package:pet_store/main.dart';
 import 'package:pet_store/Search.dart';
 import '../webservice/API.dart';
 import '../models/pet.dart';

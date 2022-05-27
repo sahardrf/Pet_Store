@@ -23,7 +23,7 @@ class API {
     //     break;
     // }
     selectedURL ??= 'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
-    String idURL = 'https://api.training.testifi.io/api/v3/pet/';
+    // String idURL = 'https://api.training.testifi.io/api/v3/pet/';
     print('API');
     print(selectedURL);
     final response =
