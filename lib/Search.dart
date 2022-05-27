@@ -13,7 +13,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController mycontroller = TextEditingController();
   late List<bool> isSelected;
-  String dropdownvalue = 'Available';
+  String? dropdownvalue;
   var items = [
     'Available',
     'Pending',
@@ -82,7 +82,7 @@ class _SearchState extends State<Search> {
             ),
             Container(child: (isSelected[0]==true)? 
             DropdownButton(
-                
+              hint: Text('Select Status'),
               // Initial Value
               value: dropdownvalue,
                 
