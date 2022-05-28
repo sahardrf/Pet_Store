@@ -12,13 +12,20 @@ class login extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.indigo,
+            title: Text('Log In'),
+            leading: GestureDetector(
+              child: Icon(Icons.arrow_back_ios, color: Colors.white,),
+              onTap: (){
+                Navigator.pop(context);
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
+            ),
+        ),
+        body: const MyStatefulWidget()
+      );
   }
 }
  
@@ -70,6 +77,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                  primary: Colors.indigo,
+                  ),
                   child: const Text('Login'),
                   onPressed: () {
                     if(nameController.text.isEmpty || passwordController.text.isEmpty){
@@ -106,7 +116,13 @@ login (username, password) async {
     var hashedPwd = res['password'];
 
     if (dBCrypt.checkpw(password, hashedPwd)){
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+      /// send username and password to flutter_secure_storage
+          Navigator.pushAndRemoveUntil(context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true,),
+                                      ),
+                                      (route) => false,
+                                    );
     }
     else{
       SignInFailedDialog(context, "Username or Password are wrong.");
