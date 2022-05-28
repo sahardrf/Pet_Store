@@ -32,7 +32,7 @@ class _SearchState extends State<Search> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.indigo,
-            title: Text('Search Pets'),
+            title: Text('Find Pet'),
             leading: GestureDetector(
               child: Icon(Icons.arrow_back_ios, color: Colors.white,),
               onTap: (){
