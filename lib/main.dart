@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
@@ -159,10 +160,15 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
             leading: const Icon(Icons.pets, color: Colors.black),
             title: const Text('Pet'),
             children: <Widget>[
-                                // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
-                                TextButton(child: const ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet")), onPressed: () => Navigator.pop(context),),
-                                // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
-                              ],
+                  // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
+                  TextButton(child: const ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet")), onPressed: () => Navigator.pushAndRemoveUntil(context,
+                                                                                                                                MaterialPageRoute(
+                                                                                                                                  builder: (BuildContext context) => const add_pet(),
+                                                                                                                                ),
+                                                                                                                                (route) => false,
+                                                                                                                              ),),
+                  // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
+                ],
               // onTap: () {
               //   // Update the state of the app
               //   // ...
@@ -181,17 +187,22 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
           ],
         ),
       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           // Add your onPressed code here!
-//         },
-//         backgroundColor: Colors.indigo,
-//         child: new IconTheme(
-//     data: new IconThemeData(
-//         color: Colors.white), 
-//     child: new Icon(Icons.add),
-// ),
-//       ),
+      floatingActionButton: (widget.LoggedIn==true)?FloatingActionButton(
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) => const add_pet(),
+                                      ),
+                                      (route) => false,
+                                    );
+        },
+        backgroundColor: Colors.indigo,
+        child: IconTheme(
+        data: const IconThemeData(
+        color: Colors.white), 
+        child: Icon(Icons.add),
+        ),
+      ): null,
     );
     
   }
