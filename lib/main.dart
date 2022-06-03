@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/Search.dart';
@@ -9,22 +7,20 @@ import 'package:pet_store/widgets/get_store_data.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:pet_store/widgets/login.dart';
 
-void main() => runApp(HomePage());
- 
+void main() => runApp(const HomePage());
 
 class HomePage extends StatelessWidget {
   // bool? LoggedIn;
- const HomePage({ Key? key }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pet Store',
-      home: DoubleBack(
-        child: PetStoreHomePage(),
-        message: "Back press again to Exit App",
-      )
-    );
+        title: 'Pet Store',
+        home: DoubleBack(
+          child: PetStoreHomePage(),
+          message: "Back press again to Exit App",
+        ));
   }
 }
 
@@ -33,10 +29,7 @@ class PetStoreHomePage extends StatefulWidget {
   // final String url = '';
   final String? selectedURL;
   final bool? LoggedIn;
-  PetStoreHomePage({
-    this.selectedURL,
-    this.LoggedIn = false
-  });
+  PetStoreHomePage({this.selectedURL, this.LoggedIn = false});
 
   @override
   _PetStoreHomePageState createState() => _PetStoreHomePageState();
@@ -45,11 +38,10 @@ class PetStoreHomePage extends StatefulWidget {
 class _PetStoreHomePageState extends State<PetStoreHomePage> {
   late List<bool> isSelected;
 
-
   @override
   void initState() {
-      isSelected = [true, false];
-      super.initState();
+    isSelected = [true, false];
+    super.initState();
   }
 
   @override
@@ -59,59 +51,66 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: Text('Pets'),
+        title: const Text('Pets'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
-            onPressed:(){
-                Navigator.pushAndRemoveUntil(context,
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) => const Search(),
-                                            ),
-                                            (route) => false,
-                                          );
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Search(),
+                ),
+                (route) => false,
+              );
             },
           ),
         ],
       ),
       body: DoubleBack(
         message: "Back press again to Exit App",
-        child: Center(child: Column(children: [
-          const Text("   "),
-          Align(
-            alignment: Alignment.topCenter,
-            child: ToggleButtons(
-              color: Color.fromARGB(255, 99, 98, 98),
-              borderColor: Color.fromARGB(255, 99, 98, 98),
-              fillColor: Color.fromARGB(255, 99, 98, 98),
-              borderWidth: 1,
-              selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
-              selectedColor: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              children: const <Widget>[
-                  Icon(Icons.format_list_bulleted),
-                  Icon(Icons.featured_play_list),
-        ], 
-        isSelected: isSelected,
-        onPressed: (int index){
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              isSelected[i] = i == index;
-            }
-          },
-          );
-        },
-        ),
-        ),
-        Expanded(child: (isSelected[0] == true)? Get_Pet_List(selectedURL: widget.selectedURL): Get_Pet_Cards(selectedURL: widget.selectedURL)),
-          ],
+        child: Center(
+          child: Column(
+            children: [
+              const Text("   "),
+              Align(
+                alignment: Alignment.topCenter,
+                child: ToggleButtons(
+                  color: const Color.fromARGB(255, 99, 98, 98),
+                  borderColor: const Color.fromARGB(255, 99, 98, 98),
+                  fillColor: const Color.fromARGB(255, 99, 98, 98),
+                  borderWidth: 1,
+                  selectedBorderColor: const Color.fromARGB(255, 99, 98, 98),
+                  selectedColor: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  children: const <Widget>[
+                    Icon(Icons.format_list_bulleted),
+                    Icon(Icons.featured_play_list),
+                  ],
+                  isSelected: isSelected,
+                  onPressed: (int index) {
+                    setState(
+                      () {
+                        for (int i = 0; i < isSelected.length; i++) {
+                          isSelected[i] = i == index;
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                  child: (isSelected[0] == true)
+                      ? Get_Pet_List(selectedURL: widget.selectedURL)
+                      : Get_Pet_Cards(selectedURL: widget.selectedURL)),
+            ],
           ),
+        ),
       ),
-    ), 
-    drawer: Drawer(
+      drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
@@ -123,52 +122,79 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               decoration: BoxDecoration(
                 color: Colors.indigo,
               ),
-              child: Center(child: ListTile(
-                leading: Icon(Icons.portrait_rounded, size:80, color: Colors.white,),
-                title: Text('Pet Store', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 20, color: Colors.white),
+              child: Center(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.portrait_rounded,
+                    size: 80,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Pet Store',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white),
+                  ),
                 ),
-                ),
-                ),  //USER Profile if log in
+              ), //USER Profile if log in
             ),
             ListTile(
-              leading: (widget.LoggedIn == true)? Icon(Icons.logout, color: Colors.black,):Icon(Icons.login, color: Colors.black,),
-              title: (widget.LoggedIn == true)? Text('Log out'): Text('Login'), //change to logout if logged in
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                if (widget.LoggedIn == false){
-                    Navigator.pushAndRemoveUntil(context,
-                                                MaterialPageRoute(
-                                                  builder: (BuildContext context) => const login(),
-                                                ),
-                                                (route) => false,
-                                              );
-              }
-               else if(widget.LoggedIn == true){
-                    Navigator.pushAndRemoveUntil(context,
-                                                MaterialPageRoute(
-                                                  builder: (BuildContext context) => PetStoreHomePage(LoggedIn: false,),
-                                                ),
-                                                (route) => false,
-                                              );
-
-                }
-              } // OnTap
-            ),
+                leading: (widget.LoggedIn == true)
+                    ? const Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      )
+                    : const Icon(
+                        Icons.login,
+                        color: Colors.black,
+                      ),
+                title: (widget.LoggedIn == true)
+                    ? const Text('Log out')
+                    : const Text('Login'), //change to logout if logged in
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  if (widget.LoggedIn == false) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const login(),
+                      ),
+                      (route) => false,
+                    );
+                  } else if (widget.LoggedIn == true) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => PetStoreHomePage(
+                          LoggedIn: false,
+                        ),
+                      ),
+                      (route) => false,
+                    );
+                  }
+                } // OnTap
+                ),
             ExpansionTile(
-            leading: const Icon(Icons.pets, color: Colors.black),
-            title: const Text('Pet'),
-            children: <Widget>[
-                  // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
-                  TextButton(child: const ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet")), onPressed: () => Navigator.pushAndRemoveUntil(context,
-                                                                                                                                MaterialPageRoute(
-                                                                                                                                  builder: (BuildContext context) => const add_pet(),
-                                                                                                                                ),
-                                                                                                                                (route) => false,
-                                                                                                                              ),),
-                  // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
-                ],
+              leading: const Icon(Icons.pets, color: Colors.black),
+              title: const Text('Pet'),
+              children: <Widget>[
+                // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.add), title: Text("Add a new Pet")),
+                  onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const add_pet(),
+                    ),
+                    (route) => false,
+                  ),
+                ),
+                // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
+              ],
               // onTap: () {
               //   // Update the state of the app
               //   // ...
@@ -177,34 +203,45 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               // },
             ),
             ExpansionTile(
-            leading: const Icon(Icons.local_grocery_store, color: Colors.black),
-            title: const Text('Store'),
-            children: <Widget>[
-                                TextButton(child: const ListTile(leading: Icon(Icons.attach_money),title:Text("Place Order")), onPressed: () => Navigator.pop(context),),
-                                TextButton(child: const ListTile(leading: Icon(Icons.search),title:Text("Find an Order")), onPressed: () => Navigator.pop(context),),
-                                ],
-            )  
+              leading:
+                  const Icon(Icons.local_grocery_store, color: Colors.black),
+              title: const Text('Store'),
+              children: <Widget>[
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.attach_money),
+                      title: Text("Place Order")),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.search),
+                      title: Text("Find an Order")),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
           ],
         ),
       ),
-      floatingActionButton: (widget.LoggedIn==true)?FloatingActionButton(
-        onPressed: () {
-          Navigator.pushAndRemoveUntil(context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) => const add_pet(),
-                                      ),
-                                      (route) => false,
-                                    );
-        },
-        backgroundColor: Colors.indigo,
-        child: IconTheme(
-        data: const IconThemeData(
-        color: Colors.white), 
-        child: Icon(Icons.add),
-        ),
-      ): null,
+      floatingActionButton: (widget.LoggedIn == true)
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const add_pet(),
+                  ),
+                  (route) => false,
+                );
+              },
+              backgroundColor: Colors.indigo,
+              child: const IconTheme(
+                data: IconThemeData(color: Colors.white),
+                child: Icon(Icons.add),
+              ),
+            )
+          : null,
     );
-    
   }
 }
-
