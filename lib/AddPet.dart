@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_store/widgets/tag_preview.dart';
 
 class add_pet extends StatefulWidget {
   const add_pet({Key? key}) : super(key: key);
@@ -9,6 +10,23 @@ class add_pet extends StatefulWidget {
 
 class _add_petState extends State<add_pet> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
+  List<tagPreview> dynamicList = [];
+  List<String> tags = [];
+  void initState() {
+    super.initState();
+    dynamicList = [];
+    tags = [];
+  }
+
+  void addTag() {
+    setState(() {
+      tags.add(tagController.text);
+      tagController.clear();
+    });
+  }
+
   String? dropdownvalue;
   var items = [
     'Available',
@@ -23,9 +41,10 @@ class _add_petState extends State<add_pet> {
         backgroundColor: Colors.indigo,
         title: const Text('Add a new pet'),
       ),
-      body: Center(
-        child: ListView(
-          children: [
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
             Card(
               child: Container(
                 padding: const EdgeInsets.all(10),
@@ -84,7 +103,7 @@ class _add_petState extends State<add_pet> {
                       ),
                     ),
                     TextField(
-                      controller: nameController,
+                      controller: categoryController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Specify your pets' category",
@@ -101,10 +120,11 @@ class _add_petState extends State<add_pet> {
                   borderSide: const BorderSide(color: Colors.white)),
             ),
             Card(
-              child: Container(
-                padding: const EdgeInsets.all(10),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
-                  children: [
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
                     const ListTile(
                       // leading,
                       title: Text(
@@ -112,11 +132,41 @@ class _add_petState extends State<add_pet> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: tags.length,
+                          itemBuilder: (_, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 3.0),
+                              child: GestureDetector(child: tagPreview(tags[index]),
+                              onTap: (){
+                                tags.removeAt(index);
+                              }
+                              ),
+                            );
+                          },
+                         ),
+                    ),
                     TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
+                      controller: tagController,
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Specify your pets' tags",
+                        suffixIcon: IconButton(
+                          icon: const Icon(
+                            Icons.add_circle_outline_sharp,
+                            color: Color.fromARGB(255, 129, 128, 128),
+                            size: 30,
+                          ),
+                          onPressed: () {
+                            addTag();
+                            print(tags);
+                            print('add tags');
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -131,7 +181,10 @@ class _add_petState extends State<add_pet> {
             ),
             Card(
               child: const ListTile(
-                title: Text("Images"),
+                title: Text(
+                  "Images",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               elevation: 8,
               shadowColor: Colors.grey.shade300,
@@ -141,18 +194,30 @@ class _add_petState extends State<add_pet> {
                   borderSide: const BorderSide(color: Colors.white)),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 120),
-              child: FlatButton(
-                  child: Text(
-                    'Add Pet',
-                    style: TextStyle(fontSize: 17.0),
+              margin: const EdgeInsets.symmetric(horizontal: 120),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                  padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 40)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: const BorderSide(
+                        color: Colors.indigo,
+                        width: 2.0,
+                      ),
+                    ),
                   ),
-                  color: Colors.indigo,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    print('Pressed');
-                    // pass url to homepage screen
-                  }),
+                ),
+                child: const Text(
+                  'Add Pet',
+                  style: TextStyle(fontSize: 17.0, color: Colors.white),
+                ),
+                onPressed: () {
+                  print('Pressed');
+                },
+              ),
             ),
           ],
         ),
@@ -160,3 +225,4 @@ class _add_petState extends State<add_pet> {
     );
   }
 }
+
