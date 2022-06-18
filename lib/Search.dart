@@ -133,29 +133,40 @@ class _SearchState extends State<Search> {
                           ),
                         ),
             ),
-
-            // Expanded(child: (isSelected[0]== true)? TextField: (isSelected[1]== true)? TextField:TextField),
-            FlatButton(
-                child: const Text(
-                  'Search',
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                color: Colors.indigo,
-                textColor: Colors.white,
-                onPressed: () {
-                  var url = select_url(isSelected, mycontroller.text);
-                  print('SEARCH');
-                  print(url);
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => PetStoreHomePage(
-                        selectedURL: url,
-                      ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 40)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(
+                      color: Colors.indigo,
+                      width: 2.0,
                     ),
-                    (route) => false,
-                  );
-                }),
+                  ),
+                ),
+              ),
+              child: const Text(
+                'Search',
+                style: TextStyle(fontSize: 17.0, color: Colors.white),
+              ),
+              onPressed: () {
+                var url = select_url(isSelected, mycontroller.text);
+                print('SEARCH');
+                print(url);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => PetStoreHomePage(
+                      selectedURL: url,
+                    ),
+                  ),
+                  (route) => false,
+                );
+              },
+            ),
           ],
         ),
       ),
