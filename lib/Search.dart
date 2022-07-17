@@ -121,23 +121,30 @@ class _SearchState extends State<Search> {
                       },
                     )
                   : (isSelected[1] == true)
-                      ? TextField(
-                          controller: mycontroller,
-                          decoration: const InputDecoration(
-                            labelText: 'Enter ID',
+                      ? Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        child: TextField(
+                            controller: mycontroller,
+                            decoration: const InputDecoration(
+                              labelText: 'Enter ID',
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ], // Only numbers can be entered
+                            // Only numbers can be entered
                           ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ], // Only numbers can be entered
-                          // Only numbers can be entered
-                        )
-                      : TextField(
-                          controller: mycontroller,
-                          decoration: const InputDecoration(
-                            labelText: 'Enter Tags',
+                      )
+                      : Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        child: TextField(
+                            controller: mycontroller,
+                            decoration: const InputDecoration(
+                              labelText: 'Enter Tags',
+                              hintText: 'Separate tags with comma',
+                            ),
                           ),
-                        ),
+                      ),
             ),
             ElevatedButton(
               style: ButtonStyle(
