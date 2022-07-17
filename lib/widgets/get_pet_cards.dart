@@ -5,15 +5,16 @@ import '../webservice/API.dart';
 import '../models/pet.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:pet_store/utils/utils.dart';
 
-Image image(String thumbnail) {
-  thumbnail = thumbnail.split(',').last.replaceAll("]", "");
-  if (thumbnail.length % 4 > 0) {
-    thumbnail += '+' * (4 - thumbnail.length % 4);
-  }
-  Image image = Image.memory(const Base64Decoder().convert(thumbnail));
-  return image;
-}
+// Image image(String thumbnail) {
+//   thumbnail = thumbnail.split(',').last.replaceAll("]", "");
+//   if (thumbnail.length % 4 > 0) {
+//     thumbnail += '+' * (4 - thumbnail.length % 4);
+//   }
+//   Image image = Image.memory(const Base64Decoder().convert(thumbnail));
+//   return image;
+// }
 
 class Get_Pet_Cards extends StatefulWidget {
   String? selectedURL;
@@ -26,17 +27,17 @@ class Get_Pet_Cards extends StatefulWidget {
 }
 
 class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
-  Image imageFromBase64String(String base64String) {
-    return Image.memory(base64Decode(base64String));
-  }
+  // Image imageFromBase64String(String base64String) {
+  //   return Image.memory(base64Decode(base64String));
+  // }
 
-  Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
-  }
+  // Uint8List dataFromBase64String(String base64String) {
+  //   return base64Decode(base64String);
+  // }
 
-  String base64String(Uint8List data) {
-    return base64Encode(data);
-  }
+  // String base64String(Uint8List data) {
+  //   return base64Encode(data);
+  // }
 
   @override
   Widget build(BuildContext context) {
