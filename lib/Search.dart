@@ -37,8 +37,14 @@ class _SearchState extends State<Search> {
             color: Colors.white,
           ),
           onTap: () {
-            Navigator.pop(context);
-            // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+            // Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const HomePage(),
+              ),
+              (route) => false,
+            );
           },
         ),
       ),
