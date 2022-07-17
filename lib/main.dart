@@ -2,6 +2,7 @@ import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/Search.dart';
+import 'package:pet_store/presentation/my_flutter_app_icons.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
 import 'package:pet_store/widgets/get_store_data.dart';
@@ -177,59 +178,117 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   }
                 } // OnTap
                 ),
-            ExpansionTile(
-              leading: const Icon(Icons.pets, color: Colors.black),
-              title: const Text('Pet'),
-              children: <Widget>[
-                // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
-                TextButton(
+                
+            Container(
+              child: ExpansionTile(
+                leading: const Icon(Icons.pets, color: Colors.black),
+                title: const Text('Pet'),
+                children: <Widget>[
+                  // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
+                  TextButton(
+                      child: const ListTile(
+                          leading: Icon(Icons.add), title: Text("Add a new Pet")),
+                      onPressed: () {
+                        //if not logged in, go to login page
+                        if (widget.LoggedIn == false) {
+                          Toast.show(
+                              "Please Log in before adding a pet", context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const login(),
+                            ),
+                          );
+                        } else if (widget.LoggedIn == true) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const add_pet(),
+                            ),
+                          );
+                        }
+                      }),
+                  // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
+                ],
+                // onTap: () {
+                //   // Update the state of the app
+                //   // ...
+                //   // Then close the drawer
+                //   Navigator.pop(context);
+                // },
+              ),
+            ),
+            Container(
+              child: ExpansionTile(
+                leading:
+                    const Icon(Icons.local_grocery_store, color: Colors.black),
+                title: const Text('Store'),
+                children: <Widget>[
+                  TextButton(
                     child: const ListTile(
-                        leading: Icon(Icons.add), title: Text("Add a new Pet")),
+                        leading: Icon(Icons.attach_money),
+                        title: Text("Place Order")),
                     onPressed: () {
-                      //if not logged in, go to login page
                       if (widget.LoggedIn == false) {
-                        Toast.show(
-                            "Please Log in before adding a pet", context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const login(),
-                          ),
-                        );
-                      } else if (widget.LoggedIn == true) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const add_pet(),
-                          ),
-                        );
-                      }
-                    }),
-                // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
-              ],
-              // onTap: () {
-              //   // Update the state of the app
-              //   // ...
-              //   // Then close the drawer
-              //   Navigator.pop(context);
-              // },
+                          Toast.show(
+                              "Please Log in before placing an order", context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const login(),
+                            ),
+                          );
+                        } else if (widget.LoggedIn == true) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Get_Store_Data(),
+                            ),
+                          );
+                        }
+                    },
+                  ),
+                  TextButton(
+                    child: const ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text("Find an Order")),
+                    onPressed: () {
+                      if (widget.LoggedIn == false) {
+                          Toast.show(
+                              "Please Log in before finding an order", context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const login(),
+                            ),
+                          );
+                        } else if (widget.LoggedIn == true) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Get_Store_Data(),
+                            ),
+                          );
+                        }
+                    },
+                  ),
+                ],
+              ),
             ),
             ExpansionTile(
-              leading:
-                  const Icon(Icons.local_grocery_store, color: Colors.black),
-              title: const Text('Store'),
+              leading: const Icon(MyFlutterApp.gamepad, color: Colors.black),
+              title: const Text('Games'),
               children: <Widget>[
                 TextButton(
                   child: const ListTile(
-                      leading: Icon(Icons.attach_money),
-                      title: Text("Place Order")),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                TextButton(
-                  child: const ListTile(
-                      leading: Icon(Icons.search),
-                      title: Text("Find an Order")),
-                  onPressed: () => Navigator.pop(context),
+                      leading: Icon(MyFlutterApp.dice_five),
+                      title: Text("Guess Game")),
+                  onPressed: () =>Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Get_Store_Data(),
+                            ),
+                          ),
                 ),
               ],
             ),
@@ -257,7 +316,3 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
     );
   }
 }
-
-class Fluttertoast {}
-
-class ToastGravity {}
