@@ -1,3 +1,4 @@
+import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/Search.dart';
@@ -182,16 +183,28 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               children: <Widget>[
                 // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
                 TextButton(
-                  child: const ListTile(
-                      leading: Icon(Icons.add), title: Text("Add a new Pet")),
-                  onPressed: () => Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const add_pet(),
-                    ),
-                    (route) => false,
-                  ),
-                ),
+                    child: const ListTile(
+                        leading: Icon(Icons.add), title: Text("Add a new Pet")),
+                    onPressed: () {
+                      //if not logged in, go to login page
+                      if (widget.LoggedIn == false) {
+                        Toast.show(
+                            "Please Log in before adding a pet", context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const login(),
+                          ),
+                        );
+                      } else if (widget.LoggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const add_pet(),
+                          ),
+                        );
+                      }
+                    }),
                 // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
               ],
               // onTap: () {
@@ -244,3 +257,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
     );
   }
 }
+
+class Fluttertoast {}
+
+class ToastGravity {}
