@@ -9,7 +9,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 
-
 class add_pet extends StatefulWidget {
   const add_pet({Key? key}) : super(key: key);
 
@@ -18,8 +17,6 @@ class add_pet extends StatefulWidget {
 }
 
 class _add_petState extends State<add_pet> {
-
-  
   final _picker = ImagePicker();
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
@@ -27,10 +24,11 @@ class _add_petState extends State<add_pet> {
     if (pickedImage != null) {
       setState(() {
         final bytes = File(pickedImage.path).readAsBytesSync();
-        base64Image =  "data:image/png;base64,"+base64Encode(bytes);
+        base64Image = "data:image/png;base64," + base64Encode(bytes);
       });
     }
   }
+
   var random = new Random();
   String? base64Image;
   TextEditingController nameController = TextEditingController();
@@ -75,12 +73,12 @@ class _add_petState extends State<add_pet> {
           onTap: () {
             // Navigator.pop(context);
             Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomePage(),
-                ),
-                (route) => false,
-              );
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const HomePage(),
+              ),
+              (route) => false,
+            );
           },
         ),
       ),
@@ -233,28 +231,27 @@ class _add_petState extends State<add_pet> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 100),
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 129, 128, 128)),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(horizontal: 20)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: const BorderSide(
-                              color: Color.fromARGB(255, 129, 128, 128),
-                              width: 2.0,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 129, 128, 128)),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(horizontal: 20)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: const BorderSide(
+                                color: Color.fromARGB(255, 129, 128, 128),
+                                width: 2.0,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      child: const Text(
-                        'Select Images',
-                        style: TextStyle(fontSize: 15.0, color: Colors.white),
-                      ),
-                      onPressed:_openImagePicker
-                    ),
+                        child: const Text(
+                          'Select Images',
+                          style: TextStyle(fontSize: 15.0, color: Colors.white),
+                        ),
+                        onPressed: _openImagePicker),
                   ),
                 ],
               ),
@@ -268,98 +265,105 @@ class _add_petState extends State<add_pet> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 120),
               child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 40)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      side: const BorderSide(
-                        color: Colors.indigo,
-                        width: 2.0,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(horizontal: 40)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: const BorderSide(
+                          color: Colors.indigo,
+                          width: 2.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                child: isLoading? const SizedBox(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                height: 15.0,
-                width: 15.0,
-              ) : const Text(
-                  'Add Pet',
-                  style: TextStyle(fontSize: 17.0, color: Colors.white),
-                ),
-                onPressed: () async {
-                  if(nameController.text.isEmpty || categoryController.text.isEmpty || dropdownvalue!.isEmpty || tags.isEmpty ){
-                    setState(() => isLoading = false);
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Error'),
-                          content: Text('Please fill all the fields'),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                  else{
-                  setState(() => isLoading = true);
-                  print('Pressed');
-                  // handle categories and tangs as list of json objects
-                  
-                  Map data = {
-                            "id": random.nextInt(10000),    ///random it integer
-                            "name": nameController.text,
-                            "category": {
-                              "id": set_category_id(categoryController.text) ,
-                              "name": categoryController.text,
-                            },
-                            "photoUrls": [
-                              base64Image
+                  child: isLoading
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white)),
+                          height: 15.0,
+                          width: 15.0,
+                        )
+                      : const Text(
+                          'Add Pet',
+                          style: TextStyle(fontSize: 17.0, color: Colors.white),
+                        ),
+                  onPressed: () async {
+                    if (nameController.text.isEmpty ||
+                        categoryController.text.isEmpty ||
+                        dropdownvalue!.isEmpty ||
+                        tags.isEmpty) {
+                      setState(() => isLoading = false);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content: Text('Please fill all the fields'),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('Ok'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
                             ],
-                            "tags": set_tags(tags),
-                            "status": dropdownvalue
-                          };
-                  var body = json.encode(data);
-                  var response = await http.post(
-                      Uri.parse("https://api.training.testifi.io/api/v3/pet"),
-                      headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                      },
-                      body: body);
+                          );
+                        },
+                      );
+                    } else {
+                      setState(() => isLoading = true);
+                      print('Pressed');
+                      // handle categories and tangs as list of json objects
+
+                      Map data = {
+                        "id": random.nextInt(10000),
+
+                        ///random it integer
+                        "name": nameController.text,
+                        "category": {
+                          "id": set_category_id(categoryController.text),
+                          "name": categoryController.text,
+                        },
+                        "photoUrls": [base64Image],
+                        "tags": set_tags(tags),
+                        "status": dropdownvalue
+                      };
+                      var body = json.encode(data);
+                      var response = await http.post(
+                          Uri.parse(
+                              "https://api.training.testifi.io/api/v3/pet"),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                          },
+                          body: body);
                       // print(response.body);
                       // print(response.statusCode);
-                      if (response.statusCode == 201 || response.statusCode == 200) {
+                      if (response.statusCode == 201 ||
+                          response.statusCode == 200) {
                         setState(() => isLoading = false);
                         print('success');
                         Toast.show("Pet is successfully created.", context);
-                        
+
                         Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomePage(),
-                ),
-                (route) => false,
-              );
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const HomePage(),
+                          ),
+                          (route) => false,
+                        );
                       } else {
                         setState(() => isLoading = false);
-                        Toast.show("ERROR! Creating a new pet failed. Please try again.", context);
-
+                        Toast.show(
+                            "ERROR! Creating a new pet failed. Please try again.",
+                            context);
                       }
-                  }
-                  }
-                   
-              ),
+                    }
+                  }),
             ),
           ],
         ),
@@ -367,34 +371,34 @@ class _add_petState extends State<add_pet> {
     );
   }
 
-int set_category_id(String category_name){
-  int category_id;
-  if (category_name == 'Cat' || category_name == 'cat') {
-    category_id = 0;
-  } else if (category_name == 'Dog' || category_name == 'dog') {
-    category_id = 1;
-  } else if (category_name == 'Bunny' || category_name == 'bunny' || category_name == 'Rabbit' || category_name == 'rabbit') {
-    category_id = 2;
-  } else if (category_name == 'Fish' || category_name == 'fish') {
-    category_id = 3;
-  } else if (category_name == 'Bird' || category_name == 'bird') {
-    category_id = 4;
-  } else {
-    category_id = 5;
+  int set_category_id(String category_name) {
+    int category_id;
+    if (category_name == 'Cat' || category_name == 'cat') {
+      category_id = 0;
+    } else if (category_name == 'Dog' || category_name == 'dog') {
+      category_id = 1;
+    } else if (category_name == 'Bunny' ||
+        category_name == 'bunny' ||
+        category_name == 'Rabbit' ||
+        category_name == 'rabbit') {
+      category_id = 2;
+    } else if (category_name == 'Fish' || category_name == 'fish') {
+      category_id = 3;
+    } else if (category_name == 'Bird' || category_name == 'bird') {
+      category_id = 4;
+    } else {
+      category_id = 5;
+    }
+    return category_id;
   }
-  return category_id;
-}
 
-set_tags(List tags){
-  List<dynamic> tags_json = [];
-  for (int i = 0; i < tags.length; i++) {
-    var temp = {
-      "id": i,
-      "name": tags[i]
-    };
-    tags_json.add(temp);
+  set_tags(List tags) {
+    List<dynamic> tags_json = [];
+    for (int i = 0; i < tags.length; i++) {
+      var temp = {"id": i, "name": tags[i]};
+      tags_json.add(temp);
+    }
+    print(tags_json);
+    return tags_json;
   }
-  print(tags_json);
-  return tags_json;
-}
 }
