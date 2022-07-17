@@ -291,9 +291,31 @@ class _add_petState extends State<add_pet> {
                   style: TextStyle(fontSize: 17.0, color: Colors.white),
                 ),
                 onPressed: () async {
+                  if(nameController.text.isEmpty || categoryController.text.isEmpty || dropdownvalue!.isEmpty || tags.isEmpty ){
+                    setState(() => isLoading = false);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Please fill all the fields'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                  else{
                   setState(() => isLoading = true);
                   print('Pressed');
                   // handle categories and tangs as list of json objects
+                  
                   Map data = {
                             "id": random.nextInt(10000),    ///random it integer
                             "name": nameController.text,
@@ -334,6 +356,7 @@ class _add_petState extends State<add_pet> {
                         Toast.show("ERROR! Creating a new pet failed. Please try again.", context);
 
                       }
+                  }
                   }
                    
               ),
