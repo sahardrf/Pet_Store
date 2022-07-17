@@ -8,6 +8,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'utils/utils.dart';
 
 class add_pet extends StatefulWidget {
   const add_pet({Key? key}) : super(key: key);
@@ -228,6 +229,33 @@ class _add_petState extends State<add_pet> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
+                  (base64Image != null)
+                      ? SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Container(
+                              decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                                image: image(base64Image!).image,
+                                fit: BoxFit.fill),
+                          )),
+                        )
+                      : SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.grey.shade300,
+                            ),
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.grey.shade800,
+                              size: 30,
+                            ),
+                          ),
+                        ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 100),
                     child: ElevatedButton(
