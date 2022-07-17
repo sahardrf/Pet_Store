@@ -7,37 +7,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:pet_store/utils/utils.dart';
 
-// Image image(String thumbnail) {
-//   thumbnail = thumbnail.split(',').last.replaceAll("]", "");
-//   if (thumbnail.length % 4 > 0) {
-//     thumbnail += '+' * (4 - thumbnail.length % 4);
-//   }
-//   Image image = Image.memory(const Base64Decoder().convert(thumbnail));
-//   return image;
-// }
-
 class Get_Pet_Cards extends StatefulWidget {
   String? selectedURL;
   Get_Pet_Cards({this.selectedURL, Key? key}) : super(key: key);
-
-  // const Get_Pet_Cards({ Key? key, url }) : super(key: key);
 
   @override
   State<Get_Pet_Cards> createState() => _Get_Pet_CardsState();
 }
 
 class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
-  // Image imageFromBase64String(String base64String) {
-  //   return Image.memory(base64Decode(base64String));
-  // }
-
-  // Uint8List dataFromBase64String(String base64String) {
-  //   return base64Decode(base64String);
-  // }
-
-  // String base64String(Uint8List data) {
-  //   return base64Encode(data);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +54,21 @@ class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
                             var photoURL = pet_data[index].photoUrls.toString();
                             return Card(
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: (photoURL.length >=50)? BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   image: DecorationImage(
                                       image: image(photoURL).image,
                                       fit: BoxFit.fitWidth),
+                                ): BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                      image: NetworkImage("https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
+                                      fit: BoxFit.fitWidth),
                                 ),
                                 child: Column(children: [
-                                  Text(id),
+                                  (id==null)?Text("Null"):Text(id),
                                   const Text("         "),
+                                  (name == null)? Text("Null"):
                                   Text(
                                     name,
                                     style: const TextStyle(
@@ -94,8 +78,10 @@ class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
+                                      (category==null)?Text("Null"):
                                       Text(category),
                                       const Text(" | "),
+                                      (status.isEmpty)? Text("Null"):
                                       Text(
                                         status,
                                         style: TextStyle(
@@ -104,7 +90,7 @@ class _Get_Pet_CardsState extends State<Get_Pet_Cards> {
                                                 : (status == 'pending')
                                                     ? const Color.fromARGB(
                                                         255, 255, 174, 0)
-                                                    : Colors.red),
+                                                    :Colors.red),
                                       ),
                                     ],
                                   ),

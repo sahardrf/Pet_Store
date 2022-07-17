@@ -57,16 +57,18 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               child: ListTile(
-                                leading: Text(id),
-                                title: Text(
+                                leading: (id==null)?Text("Null"):Text(id),
+                                title: (name == null)? Text("Null"):Text(
                                   name,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Row(
                                   children: [
+                                    (category==null)?Text("Null"):
                                     Text(category),
                                     const Text(" | "),
+                                    (status == null)? Text("Null"):
                                     Text(
                                       status,
                                       style: TextStyle(
@@ -75,7 +77,7 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                                               : (status == 'pending')
                                                   ? const Color.fromARGB(
                                                       255, 255, 174, 0)
-                                                  : Colors.red),
+                                                  : (status == 'sold')? Colors.red : Color.fromARGB(255, 69, 53, 69)),
                                     ),
                                   ],
                                 ),
