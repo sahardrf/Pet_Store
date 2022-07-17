@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/main.dart';
 import 'package:pet_store/widgets/tag_preview.dart';
@@ -38,6 +39,7 @@ class _add_petState extends State<add_pet> {
   late File imageFile;
   List<tagPreview> dynamicList = [];
   List<String> tags = [];
+  bool isLoading = false;
   void initState() {
     super.initState();
     dynamicList = [];
@@ -72,7 +74,13 @@ class _add_petState extends State<add_pet> {
           ),
           onTap: () {
             // Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const HomePage()));
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomePage(),
+                ),
+                (route) => false,
+              );
           },
         ),
       ),
@@ -199,7 +207,6 @@ class _add_petState extends State<add_pet> {
                           onPressed: () {
                             addTag();
                             print(tags);
-                            print('add tags');
                           },
                         ),
                       ),
@@ -275,11 +282,16 @@ class _add_petState extends State<add_pet> {
                     ),
                   ),
                 ),
-                child: const Text(
+                child: isLoading? const SizedBox(
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                height: 15.0,
+                width: 15.0,
+              ) : const Text(
                   'Add Pet',
                   style: TextStyle(fontSize: 17.0, color: Colors.white),
                 ),
                 onPressed: () async {
+                  setState(() => isLoading = true);
                   print('Pressed');
                   // handle categories and tangs as list of json objects
                   Map data = {
@@ -303,20 +315,27 @@ class _add_petState extends State<add_pet> {
                         "Accept": "application/json"
                       },
                       body: body);
-                      CircularProgressIndicator();
-                      if (response.statusCode == 200) {
+                      // print(response.body);
+                      // print(response.statusCode);
+                      if (response.statusCode == 201 || response.statusCode == 200) {
+                        setState(() => isLoading = false);
                         print('success');
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Pet is successfully created."),
-                      ));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                        Toast.show("Pet is successfully created.", context);
+                        
+                        Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomePage(),
+                ),
+                (route) => false,
+              );
                       } else {
-                        print('error');
+                        setState(() => isLoading = false);
+                        Toast.show("ERROR! Creating a new pet failed. Please try again.", context);
+
                       }
                   }
+                   
               ),
             ),
           ],
@@ -331,7 +350,7 @@ int set_category_id(String category_name){
     category_id = 0;
   } else if (category_name == 'Dog' || category_name == 'dog') {
     category_id = 1;
-  } else if (category_name == 'Bunny' || category_name == 'bunny') {
+  } else if (category_name == 'Bunny' || category_name == 'bunny' || category_name == 'Rabbit' || category_name == 'rabbit') {
     category_id = 2;
   } else if (category_name == 'Fish' || category_name == 'fish') {
     category_id = 3;
@@ -343,17 +362,16 @@ int set_category_id(String category_name){
   return category_id;
 }
 
-List set_tags(List tags){
+set_tags(List tags){
   List<dynamic> tags_json = [];
   for (int i = 0; i < tags.length; i++) {
     var temp = {
       "id": i,
-      "tag": tags[i]
+      "name": tags[i]
     };
     tags_json.add(temp);
   }
   print(tags_json);
   return tags_json;
 }
-
 }
