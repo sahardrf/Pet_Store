@@ -59,12 +59,11 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => const Search(),
                 ),
-                (route) => false,
               );
             },
           ),
