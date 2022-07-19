@@ -190,15 +190,15 @@ class _SearchState extends State<Search> {
     String url;
     if (first_search_filter[0] == true) {
       second_search_filter = dropdownvalue;
-      if (second_search_filter == 'Available') {
+      if (second_search_filter == 'Available' || second_search_filter == 'available') {
         url =
             'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
         return url;
-      } else if (second_search_filter == 'Pending') {
+      } else if (second_search_filter == 'Pending' || second_search_filter == 'pending') {
         url =
             'https://api.training.testifi.io/api/v3/pet/findByStatus?status=pending';
         return url;
-      } else if (second_search_filter == 'Sold') {
+      } else if (second_search_filter == 'Sold' || second_search_filter == 'sold') {
         url =
             'https://api.training.testifi.io/api/v3/pet/findByStatus?status=sold';
         return url;
