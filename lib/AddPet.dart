@@ -76,7 +76,7 @@ class _add_petState extends State<add_pet> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => const HomePage(),
+                builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
               ),
               (route) => false,
             );
@@ -380,7 +380,7 @@ class _add_petState extends State<add_pet> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => const HomePage(),
+                            builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
                           ),
                           (route) => false,
                         );
