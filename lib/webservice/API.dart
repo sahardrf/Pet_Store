@@ -5,25 +5,9 @@ import 'package:pet_store/models/pet.dart';
 
 class API {
   String? selectedURL;
-
-  // API(this.selectedURL);
-
   static Future<List<Pet>> get_pets(selectedURL) async {
-    // String url = '';
-    // switch (query) {
-    //   case 0:
-    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=available";
-    //     break;
-    //   case 1:
-    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=pending";
-    //     break;
-    //   case 2:
-    //     url = "https://api.training.testifi.io/api/v3/pet/findByStatus?status=sold";
-    //     break;
-    // }
     selectedURL ??=
         'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
-    // String idURL = 'https://api.training.testifi.io/api/v3/pet/';
     print('API');
     print(selectedURL);
     final response = await http.get(Uri.parse(selectedURL));
