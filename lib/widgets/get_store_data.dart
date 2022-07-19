@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/models/store.dart';
+import '../main.dart';
 import '../webservice/API.dart';
 
 class Get_Store_Data extends StatelessWidget {
@@ -8,8 +9,28 @@ class Get_Store_Data extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Center(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo,
+        title: const Text('Add a new pet'),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onTap: () {
+            // Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
+              ),
+              (route) => false,
+            );
+          },
+        ),
+      ),
+      body: Center(
         child: FutureBuilder<List>(
           future: API.get_store_data(),
           builder: (context, snapshot) {
