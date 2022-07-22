@@ -179,7 +179,6 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   }
                 } // OnTap
                 ),
-                
             Container(
               child: ExpansionTile(
                 leading: const Icon(Icons.pets, color: Colors.black),
@@ -188,7 +187,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   // ListTile(leading: Icon(Icons.search),title:Text("Find Pet")),
                   TextButton(
                       child: const ListTile(
-                          leading: Icon(Icons.add), title: Text("Add a new Pet")),
+                          leading: Icon(Icons.add),
+                          title: Text("Add a new Pet")),
                       onPressed: () {
                         //if not logged in, go to login page
                         if (widget.LoggedIn == false) {
@@ -204,7 +204,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => const add_pet(),
+                              builder: (BuildContext context) =>
+                                  const add_pet(),
                             ),
                           );
                         }
@@ -231,22 +232,23 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                         title: Text("Place Order")),
                     onPressed: () {
                       if (widget.LoggedIn == false) {
-                          Toast.show(
-                              "Please Log in before placing an order", context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const login(),
-                            ),
-                          );
-                        } else if (widget.LoggedIn == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Get_Store_Data(),
-                            ),
-                          );
-                        }
+                        Toast.show(
+                            "Please Log in before placing an order", context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const login(),
+                          ),
+                        );
+                      } else if (widget.LoggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const Get_Store_Data(),
+                          ),
+                        );
+                      }
                     },
                   ),
                   TextButton(
@@ -255,22 +257,23 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                         title: Text("Find an Order")),
                     onPressed: () {
                       if (widget.LoggedIn == false) {
-                          Toast.show(
-                              "Please Log in before finding an order", context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const login(),
-                            ),
-                          );
-                        } else if (widget.LoggedIn == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Get_Store_Data(),
-                            ),
-                          );
-                        }
+                        Toast.show(
+                            "Please Log in before finding an order", context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const login(),
+                          ),
+                        );
+                      } else if (widget.LoggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const Get_Store_Data(),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],
@@ -284,45 +287,45 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   child: const ListTile(
                       leading: Icon(MyFlutterApp.infinity),
                       title: Text("Infinite Scroll Game")),
-                  onPressed: () =>Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Guess_Game(),
-                            ),
-                          ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Guess_Game(),
+                    ),
+                  ),
                 ),
-                                TextButton(
+                TextButton(
                   child: const ListTile(
                       leading: Icon(MyFlutterApp.dice_five),
                       title: Text("Guess Game")),
-                  onPressed: () =>Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Guess_Game(),
-                            ),
-                          ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Guess_Game(),
+                    ),
+                  ),
                 ),
-                                TextButton(
+                TextButton(
                   child: const ListTile(
                       leading: Icon(Icons.ads_click),
                       title: Text("Click Game")),
-                  onPressed: () =>Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Guess_Game(),
-                            ),
-                          ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Guess_Game(),
+                    ),
+                  ),
                 ),
                 TextButton(
                   child: const ListTile(
                       leading: Icon(Icons.check_box),
                       title: Text("Survey Game")),
-                  onPressed: () =>Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Guess_Game(),
-                            ),
-                          ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Guess_Game(),
+                    ),
+                  ),
                 ),
               ],
             ),
