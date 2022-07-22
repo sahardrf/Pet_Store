@@ -282,8 +282,41 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               children: <Widget>[
                 TextButton(
                   child: const ListTile(
+                      leading: Icon(MyFlutterApp.infinity),
+                      title: Text("Infinite Scroll Game")),
+                  onPressed: () =>Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Guess_Game(),
+                            ),
+                          ),
+                ),
+                                TextButton(
+                  child: const ListTile(
                       leading: Icon(MyFlutterApp.dice_five),
                       title: Text("Guess Game")),
+                  onPressed: () =>Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Guess_Game(),
+                            ),
+                          ),
+                ),
+                                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.ads_click),
+                      title: Text("Click Game")),
+                  onPressed: () =>Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const Guess_Game(),
+                            ),
+                          ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.check_box),
+                      title: Text("Survey Game")),
                   onPressed: () =>Navigator.push(
                             context,
                             MaterialPageRoute(
