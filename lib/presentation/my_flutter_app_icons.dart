@@ -16,6 +16,10 @@
 ///         Author:    Stephen Hutchings
 ///         License:   SIL (http://scripts.sil.org/OFL)
 ///         Homepage:  http://typicons.com/
+/// * Entypo, Copyright (C) 2012 by Daniel Bruce
+///         Author:    Daniel Bruce
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://www.entypo.com
 /// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
@@ -30,6 +34,7 @@ class MyFlutterApp {
   static const String? _kFontPkg = null;
 
   static const IconData menu = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData infinity = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gamepad = IconData(0xf11b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData dice_five = IconData(0xf523, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
