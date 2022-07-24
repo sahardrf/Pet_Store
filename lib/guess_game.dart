@@ -190,7 +190,7 @@ class _Guess_GameState extends State<Guess_Game> {
                               },
                             ),
                           );
-                        } 
+                        }
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
@@ -202,19 +202,21 @@ class _Guess_GameState extends State<Guess_Game> {
                     "Please select your guess",
                     style: TextStyle(fontSize: 17, color: Colors.indigo),
                   ),
-              (dropDownIsSelected==true)? ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.indigo,
-                    
-                  ),
-                  child: const Text('Remove', style: TextStyle(color: Colors.white)),
-                  onPressed: () {
-                    setState(() {
-                                          dropDownIsSelected = false;
-                    dropdownvalue = null;
-                    });
-                    Toast.show("Play Again!", context);
-                  }):const Text(""),
+            (dropDownIsSelected == true)
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.indigo,
+                    ),
+                    child: const Text('Remove',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      setState(() {
+                        dropDownIsSelected = false;
+                        dropdownvalue = null;
+                      });
+                      Toast.show("Play Again!", context);
+                    })
+                : const Text(""),
           ],
         ),
       ),
