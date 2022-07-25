@@ -103,87 +103,93 @@ class _Guess_GameState extends State<Guess_Game> {
                                 var category = pet.category.toString();
                                 var status = pet.status.toString();
                                 var photoURL = pet.photoUrls.toString();
-                                return Card(
-                                  child: Container(
-                                    width: 100,
-                                    height: 150,
-                                    decoration: (photoURL.length >= 50)
-                                        ? BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            image: DecorationImage(
-                                                opacity: 0.6,
-                                                image: image(photoURL).image,
-                                                fit: BoxFit.scaleDown),
-                                          )
-                                        : BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            image: const DecorationImage(
-                                                opacity: 0.6,
-                                                image: NetworkImage(
-                                                    "https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
-                                                fit: BoxFit.scaleDown),
-                                          ),
+                                return SizedBox(
+                                  width: 200,
+                                  height: 200,
+                                  child: Card(
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      child: Column(children: [
-                                        Text("Your Guess:  " +
-                                            dropdownvalue.toString()),
-                                        Text("Actual Pet:  " +
-                                            category.toString()),
-                                        (category == dropdownvalue)
-                                            ? const Text("You Win!",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.green))
-                                            : const Text("Maybe Next Time :(",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red)),
-                                        const Text('                       '),
-                                        (id == null)
-                                            ? const Text("Null")
-                                            : Text(id),
-                                        (name == null)
-                                            ? const Text("Null")
-                                            : Text(
-                                                name,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            (category == null)
-                                                ? const Text("Null")
-                                                : Text(category),
-                                            const Text(" | "),
-                                            (status.isEmpty)
-                                                ? const Text("Null")
-                                                : Text(
-                                                    status,
-                                                    style: TextStyle(
-                                                        color: (status ==
-                                                                'available')
-                                                            ? Colors.green
-                                                            : (status ==
-                                                                    'pending')
-                                                                ? const Color
-                                                                        .fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    174,
-                                                                    0)
-                                                                : Colors.red),
-                                                  ),
-                                          ],
-                                        ),
-                                      ]),
+                                      decoration: (photoURL.length >= 50)
+                                          ? BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              image: DecorationImage(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  image: image(photoURL).image,
+                                                  fit: BoxFit.scaleDown),
+                                            )
+                                          : BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              image: const DecorationImage(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  image: NetworkImage(
+                                                      "https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
+                                                  fit: BoxFit.scaleDown),
+                                            ),
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        child: Column(children: [
+                                          Text("Your Guess:  " +
+                                              dropdownvalue.toString()),
+                                          Text("Actual Pet:  " +
+                                              category.toString()),
+                                          (category == dropdownvalue)
+                                              ? const Text("You Win!",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.green))
+                                              : const Text("Maybe Next Time :(",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.red)),
+                                          const Text('                       '),
+                                          (id == null)
+                                              ? const Text("Null")
+                                              : Text(id),
+                                          (name == null)
+                                              ? const Text("Null")
+                                              : Text(
+                                                  name,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              (category == null)
+                                                  ? const Text("Null")
+                                                  : Text(category),
+                                              const Text(" | "),
+                                              (status.isEmpty)
+                                                  ? const Text("Null")
+                                                  : Text(
+                                                      status,
+                                                      style: TextStyle(
+                                                          color: (status ==
+                                                                  'available')
+                                                              ? Colors.green
+                                                              : (status ==
+                                                                      'pending')
+                                                                  ? const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      174,
+                                                                      0)
+                                                                  : Colors.red),
+                                                    ),
+                                            ],
+                                          ),
+                                        ]),
+                                      ),
                                     ),
                                   ),
                                 );
