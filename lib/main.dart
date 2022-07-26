@@ -1,6 +1,7 @@
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
+import 'package:pet_store/click_game.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/presentation/my_flutter_app_icons.dart';
@@ -343,7 +344,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Guess_Game(),
+                      builder: (BuildContext context) => const Click_Game(),
                     ),
                   ),
                 ),
