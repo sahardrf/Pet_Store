@@ -14,6 +14,7 @@ void main() => runApp(const HomePage());
 
 class HomePage extends StatelessWidget {
   // bool? LoggedIn;
+
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -40,6 +41,9 @@ class PetStoreHomePage extends StatefulWidget {
 
 class _PetStoreHomePageState extends State<PetStoreHomePage> {
   late List<bool> isSelected;
+  bool? isCollapsed;
+  bool isDoubled = false;
+  bool isLongPressed = false;
 
   @override
   void initState() {
@@ -280,8 +284,35 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
               ),
             ),
             ExpansionTile(
-              leading: const Icon(MyFlutterApp.gamepad, color: Colors.black),
-              title: const Text('Games'),
+              leading: GestureDetector(
+                child: const Icon(MyFlutterApp.gamepad, color: Colors.black),
+                //if double tap set expantiontile title to "Double Tap on Games"
+                onDoubleTap: () {
+                  setState(() {
+                    isDoubled = true;
+                  });
+                },
+                onLongPress: () {
+                  setState(() {
+                    isLongPressed = true;
+                  });
+                },
+              ),
+              title: (isCollapsed == false)
+                  ? const Text('Games Expanded')
+                  : (isDoubled == true)
+                      ? const Text('Double Tap on Games')
+                      : (isLongPressed == true)
+                          ? const Text('Long Press on Games')
+                          : const Text('Games'),
+              onExpansionChanged: (bool value) {
+                setState(() {
+                  isCollapsed = !value;
+                  isLongPressed = false;
+                  isDoubled = false;
+                  print("IS EXPANDED: " + isCollapsed.toString());
+                });
+              },
               children: <Widget>[
                 TextButton(
                   child: const ListTile(
