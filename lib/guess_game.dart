@@ -26,7 +26,7 @@ class _Guess_GameState extends State<Guess_Game> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text('Games'),
+        title: const Text('Guess Game'),
         leading: GestureDetector(
           child: const Icon(
             Icons.arrow_back_ios,
@@ -47,11 +47,7 @@ class _Guess_GameState extends State<Guess_Game> {
       body: Center(
         child: Column(
           children: [
-            const Text("Guess Game",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 40, 48, 95))),
+
             const Padding(
               padding: EdgeInsets.all(1.0),
               child: Text("Guess which animal will we generate randomly"),
