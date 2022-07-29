@@ -2,6 +2,7 @@ import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/click_game.dart';
+import 'package:pet_store/drag_and_drop_game.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/pet_survey_game.dart';
@@ -316,17 +317,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                 });
               },
               children: <Widget>[
-                TextButton(
-                  child: const ListTile(
-                      leading: Icon(MyFlutterApp.infinity),
-                      title: Text("Infinite Scroll Game")),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const Guess_Game(),
-                    ),
-                  ),
-                ),
+                
                 TextButton(
                   child: const ListTile(
                       leading: Icon(MyFlutterApp.dice_five),
@@ -357,6 +348,28 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => const Survey_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.move_down),
+                      title: Text("Drag and Drop Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Drag_and_Drop_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(MyFlutterApp.infinity),
+                      title: Text("Infinite Scroll Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Guess_Game(),
                     ),
                   ),
                 ),
