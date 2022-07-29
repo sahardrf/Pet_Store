@@ -15,7 +15,7 @@ class _Drag_and_Drop_GameState extends State<Drag_and_Drop_Game> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text('Drag and Drop'),
+        title: const Text('Drag and Drop Game'),
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
