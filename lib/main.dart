@@ -317,7 +317,6 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                 });
               },
               children: <Widget>[
-                
                 TextButton(
                   child: const ListTile(
                       leading: Icon(MyFlutterApp.dice_five),
@@ -358,7 +357,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Drag_and_Drop_Game(),
+                      builder: (BuildContext context) =>
+                          const Drag_and_Drop_Game(),
                     ),
                   ),
                 ),
