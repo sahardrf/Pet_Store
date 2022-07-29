@@ -302,24 +302,24 @@ class _Survey_GameState extends State<Survey_Game> {
             ),
             const SizedBox(height: 10),
             (base64Image != null)
-                      ? Column(
-                        children: [
-                          SizedBox(
-                              width: 100,
-                              height: 100,
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                image: DecorationImage(
-                                    image: image(base64Image!).image,
-                                    fit: BoxFit.fill),
-                              )),
-                            ),
-                            Text('$fileName'),
-                            const SizedBox(height: 5),
-                        ],
-                      )
-                      :const Text(''),
+                ? Column(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Container(
+                            decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: image(base64Image!).image,
+                              fit: BoxFit.fill),
+                        )),
+                      ),
+                      Text('$fileName'),
+                      const SizedBox(height: 5),
+                    ],
+                  )
+                : const Text(''),
             (isSwitched == true)
                 ? ElevatedButton(
                     style: ButtonStyle(
@@ -346,7 +346,7 @@ class _Survey_GameState extends State<Survey_Game> {
                     onPressed: _openImagePicker,
                   )
                 : const Text('   '),
-                const SizedBox(height: 30),
+            const SizedBox(height: 30),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.indigo),
@@ -369,24 +369,33 @@ class _Survey_GameState extends State<Survey_Game> {
                     fontSize: 17,
                     fontWeight: FontWeight.bold),
               ),
-              onPressed: (){
+              onPressed: () {
                 showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Done'),
-                            content: const Text('Survey has been successfully submitted.'),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: const Text('Ok'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Done'),
+                      content:
+                          const Text('Survey has been successfully submitted.'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: const Text('Ok'),
+                          onPressed: () {
+                            // Navigator.of(context).pop();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    PetStoreHomePage(),
                               ),
-                            ],
-                          );
-                        },
-                      );
+                              (route) => false,
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             )
           ]),
