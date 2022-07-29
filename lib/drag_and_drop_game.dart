@@ -33,16 +33,19 @@ class _Drag_and_Drop_GameState extends State<Drag_and_Drop_Game> {
             for (final task in tasks)
               Card(
                 shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Color.fromARGB(255, 83, 83, 83),
-                                ),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                  side: const BorderSide(
+                    color: Color.fromARGB(255, 83, 83, 83),
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 color: Color.fromARGB(255, 255, 255, 255),
                 key: ValueKey(task),
                 elevation: 5.0,
                 child: ListTile(
-                  title: Text(task, style: TextStyle(fontSize: 17),),
+                  title: Text(
+                    task,
+                    style: TextStyle(fontSize: 17),
+                  ),
                   leading: Icon(Icons.drag_handle, color: Colors.black),
                 ),
               ),
