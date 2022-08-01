@@ -3,6 +3,8 @@ import '../Search.dart';
 import '../webservice/API.dart';
 import '../models/pet.dart';
 import 'package:pet_store/main.dart';
+import 'dart:developer';
+
 
 class Get_Pet_List extends StatefulWidget {
   String? selectedURL;
@@ -21,11 +23,11 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
     print(widget.selectedURL);
     return Material(
         child: Center(
-          child: FutureBuilder<List<Pet>>(
+          child: FutureBuilder<List<dynamic>>(
             future: API.get_pets(widget.selectedURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<Pet>? pet_data = snapshot.data;
+                List<dynamic>? pet_data = snapshot.data;
                 print(pet_data?.length);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -43,12 +45,14 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                           ],
                         )
                       : ListView.builder(
-                          itemCount: pet_data?.length,
+                          itemCount: pet_data!.length,
                           itemBuilder: (context, index) {
-                            var id = pet_data![index].id.toString();
+                            // print(pet_data![0]['pets']);
+                            var id = pet_data[index].id.toString();
                             var name = pet_data[index].name.toString();
                             var category = pet_data[index].category.toString();
                             var status = pet_data[index].status.toString();
+                            // inspect(pet_data[0]['pets'][0].photoUrls[0]);
                             return Card(
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(

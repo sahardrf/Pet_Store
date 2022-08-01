@@ -5,7 +5,7 @@ import 'package:pet_store/models/pet.dart';
 
 class API {
   String? selectedURL;
-  static Future<List<Pet>> get_pets(selectedURL) async {
+  static Future<List<dynamic>> get_pets(selectedURL) async {
     selectedURL ??=
         'https://api.training.testifi.io/api/v3/pet/findByStatus?status=available';
     print('API');
@@ -18,7 +18,13 @@ class API {
         Res = '[' + response.body + ']';
       }
       List jsonResponse = json.decode(Res);
-      return jsonResponse.map((pet) => new Pet.fromJson(pet)).toList();
+      List<Pet> pets = jsonResponse.map((pet) => new Pet.fromJson(pet)).toList();
+      // final images = (jsonResponse[0]['photoUrl'] ?? []) as List<dynamic>;
+      // List pets_info = [{
+      //   'pets': pets,
+      //   // 'images': images,
+      // }];
+      return pets;
     } else {
       return [];
     }
