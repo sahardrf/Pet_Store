@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_store/widgets/guess_game_random_card.dart';
 import 'webservice/API.dart';
 import 'main.dart';
 import 'dart:math';
-import 'models/pet.dart';
 import 'utils/utils.dart';
 
 Random random = new Random();
@@ -47,10 +49,15 @@ class _Guess_GameState extends State<Guess_Game> {
       body: Center(
         child: Column(
           children: [
-
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(1.0),
-              child: Text("Guess which animal will we generate randomly"),
+              child: Column(
+                children: const [
+                  SizedBox(height: 20),
+                  Text("Guess which animal will we generate randomly"),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
             // Text("Your Guess: " + dropdownvalue.toString()),
             DropdownButton(
@@ -64,134 +71,31 @@ class _Guess_GameState extends State<Guess_Game> {
                 );
               }).toList(),
               onChanged: (String? newValue) {
+                if (dropdownvalue == null){
                 setState(() {
                   dropdownvalue = newValue!;
                   dropDownIsSelected = true;
                 });
+                } else {
+                  Toast.show("Press Remove to Play again.", context);
+                }
               },
             ),
-            //get pets and show one of them randomly
             const Padding(
                 padding: EdgeInsets.all(1.0),
                 child: Text("                        ")),
             (dropDownIsSelected == true)
-                ? FutureBuilder<List<Pet>>(
+                ? FutureBuilder<List<dynamic>>(
                     future: API.get_pets(randomly_select_URL()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        List<dynamic>? pet_data = snapshot.data;
+
                         if (dropDownIsSelected == true) {
                           var number_of_parameters = snapshot.data!.length;
                           var random_pet = random.nextInt(number_of_parameters);
-                          return Expanded(
-                            child: PageView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: number_of_parameters,
-                              onPageChanged: (int index) {
-                                setState(() {
-                                  dropdownvalue = null;
-                                  dropDownIsSelected = false;
-                                });
-                              },
-                              itemBuilder: (context, index) {
-                                Pet pet = snapshot.data![random_pet];
-                                var id = pet.id.toString();
-                                var name = pet.name.toString();
-                                var category = pet.category.toString();
-                                var status = pet.status.toString();
-                                var photoURL = pet.photoUrls.toString();
-                                return SizedBox(
-                                  width: 200,
-                                  height: 200,
-                                  child: Card(
-                                    child: Container(
-                                      decoration: (photoURL.length >= 50)
-                                          ? BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              image: DecorationImage(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  image: image(photoURL).image,
-                                                  fit: BoxFit.scaleDown),
-                                            )
-                                          : BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              image: const DecorationImage(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  image: NetworkImage(
-                                                      "https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
-                                                  fit: BoxFit.scaleDown),
-                                            ),
-                                      child: Container(
-                                        padding: EdgeInsets.all(5),
-                                        child: Column(children: [
-                                          Text("Your Guess:  " +
-                                              dropdownvalue.toString()),
-                                          Text("Actual Pet:  " +
-                                              category.toString()),
-                                          (category == dropdownvalue)
-                                              ? const Text("You Win!",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.green))
-                                              : const Text("Maybe Next Time :(",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.red)),
-                                          const Text('                       '),
-                                          (id == null)
-                                              ? const Text("Null")
-                                              : Text(id),
-                                          (name == null)
-                                              ? const Text("Null")
-                                              : Text(
-                                                  name,
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              (category == null)
-                                                  ? const Text("Null")
-                                                  : Text(category),
-                                              const Text(" | "),
-                                              (status.isEmpty)
-                                                  ? const Text("Null")
-                                                  : Text(
-                                                      status,
-                                                      style: TextStyle(
-                                                          color: (status ==
-                                                                  'available')
-                                                              ? Colors.green
-                                                              : (status ==
-                                                                      'pending')
-                                                                  ? const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      255,
-                                                                      174,
-                                                                      0)
-                                                                  : Colors.red),
-                                                    ),
-                                            ],
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
+
+                          return Random_Card(pet_data: pet_data, random_pet: random_pet,dropdownvalue: dropdownvalue);
                         }
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
