@@ -48,6 +48,7 @@ class _Survey_GameState extends State<Survey_Game> {
         final bytes = File(pickedImage.path).readAsBytesSync();
         base64Image = "data:image/png;base64," + base64Encode(bytes);
         fileName = pickedImage.path.split('/').last;
+        fileName = fileName.replaceRange(0,12,"");
         print(fileName);
       });
     }
