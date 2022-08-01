@@ -8,7 +8,8 @@ class Random_Card extends StatefulWidget {
   String? dropdownvalue;
   int random_pet;
   int current_index = 0;
-  Random_Card({this.pet_data, required this.random_pet, this.dropdownvalue, Key? key})
+  Random_Card(
+      {this.pet_data, required this.random_pet, this.dropdownvalue, Key? key})
       : super(key: key);
 
   @override
@@ -35,25 +36,26 @@ class _Random_CardState extends State<Random_Card> {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx > 0) {
           setState(() {
-            if (widget.current_index < number_of_photos - 1) {
-              widget.current_index++;
-            } else {
-              Toast.show("No More Images", context);
+            if (0 < widget.current_index) {
+              widget.current_index--;
             }
+            // else if (widget.current_index < 0){
+            //   Toast.show("No More Images", context);
+            // }
           });
         }
         if (details.delta.dx < 0) {
           setState(() {
-            if (0 < widget.current_index) {
-              widget.current_index--;
-            } else {
-              Toast.show("No More Images", context);
+            if (widget.current_index < number_of_photos - 1) {
+              widget.current_index++;
             }
+            // else if (widget.current_index == number_of_photos) {
+            //   Toast.show("No More Images", context);
+            // }
           });
         }
       },
@@ -64,15 +66,13 @@ class _Random_CardState extends State<Random_Card> {
           child: Container(
             decoration: (photoURL.length != 0)
                 ? BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                         alignment: Alignment.bottomCenter,
                         image: image(photoURL[widget.current_index]).image,
                         fit: BoxFit.scaleDown),
                   )
-                : BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: const DecorationImage(
+                : const BoxDecoration(
+                    image: DecorationImage(
                         alignment: Alignment.bottomCenter,
                         image: NetworkImage(
                             "https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
