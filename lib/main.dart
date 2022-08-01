@@ -5,6 +5,7 @@ import 'package:pet_store/click_game.dart';
 import 'package:pet_store/drag_and_drop_game.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
+import 'package:pet_store/infinite_scroll_game.dart';
 import 'package:pet_store/pet_survey_game.dart';
 import 'package:pet_store/presentation/my_flutter_app_icons.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
@@ -369,7 +370,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Guess_Game(),
+                      builder: (BuildContext context) => const Infinite_Scroll_Game(),
                     ),
                   ),
                 ),
