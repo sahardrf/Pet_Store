@@ -7,17 +7,14 @@ class Store {
     this.approved = approved;
     this.placed = placed;
     this.delivered = delivered;
-
   }
 
-  Store.fromJson(Map json):
-        approved = json['approved'],
-        placed= json['placed'], 
+  Store.fromJson(Map json)
+      : approved = json['approved'],
+        placed = json['placed'],
         delivered = json['delivered'];
-       
 
   Map toJson() {
-    return {'approved': approved, 'placed': placed, 'delivered': delivered}; 
-    
+    return {'approved': approved, 'placed': placed, 'delivered': delivered};
   }
 }
