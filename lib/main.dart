@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/click_game.dart';
 import 'package:pet_store/drag_and_drop_game.dart';
+import 'package:pet_store/dynamic_game.dart';
+import 'package:pet_store/favorite_pet.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/infinite_scroll_game.dart';
@@ -371,6 +373,28 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => const Infinite_Scroll_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.title),
+                      title: Text("Dynamic Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Dynamic_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.star),
+                      title: Text("Favorite Pet Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Favorite_Pet(),
                     ),
                   ),
                 ),
