@@ -36,5 +36,6 @@ class MyFlutterApp {
   static const IconData menu = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData infinity = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gamepad = IconData(0xf11b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData hand_holding_heart = IconData(0xf4be, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData dice_five = IconData(0xf523, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
