@@ -372,7 +372,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Infinite_Scroll_Game(),
+                      builder: (BuildContext context) => Infinite_Scroll_Game(),
                     ),
                   ),
                 ),
