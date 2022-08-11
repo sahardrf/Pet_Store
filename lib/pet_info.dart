@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_store/update_pet.dart';
 import 'package:pet_store/utils/utils.dart';
 import 'package:pet_store/webservice/API.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -176,9 +177,18 @@ class _Pet_InfoState extends State<Pet_Info> {
                           style:
                               TextStyle(fontSize: 17.0, color: Colors.indigo),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  update_pet(id: widget.id, name: widget.name, status: widget.status,),
+                            ),
+                          );
+                        
+                        },
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
