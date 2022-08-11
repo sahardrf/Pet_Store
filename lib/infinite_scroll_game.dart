@@ -13,21 +13,47 @@ class Infinite_Scroll_Game extends StatefulWidget {
 }
 
 class _Infinite_Scroll_GameState extends State<Infinite_Scroll_Game> {
+  List<int> dataList = [];
+  bool isLoading = false;
+  int pageCount = 1;
   ScrollController _scrollController = ScrollController();
-  int pageNumber = 1;
-
-  var myRecipe;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        pageNumber++;
-        setState(() {});
-      }
-    });
+
+    ////LOADING FIRST  DATA
+    addItemIntoLisT(1);
+
+    _scrollController = new ScrollController(initialScrollOffset: 5.0)
+      ..addListener(_scrollListener);
+  }
+
+  _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        print("comes to bottom $isLoading");
+        isLoading = true;
+
+        if (isLoading) {
+          print("RUNNING LOAD MORE");
+
+          pageCount = pageCount + 1;
+
+          addItemIntoLisT(pageCount);
+        }
+      });
+    }
+  }
+
+  ////ADDING DATA INTO ARRAYLIST
+  void addItemIntoLisT(var pageCount) {
+    for (int i = (pageCount * 10) - 10; i < pageCount * 10; i++) {
+      dataList.add(i);
+      isLoading = false;
+    }
   }
 
   @override
@@ -61,38 +87,17 @@ class _Infinite_Scroll_GameState extends State<Infinite_Scroll_Game> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-        child: FutureBuilder<List<dynamic>>(
-          future: API.get_pets(randomly_select_URL()),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<dynamic>? pet_data = snapshot.data;
-              var number_of_parameters = snapshot.data!.length;
-              var random_pet = random.nextInt(number_of_parameters);
-              return GridView.builder(
-                controller: _scrollController,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12.0,
-                  mainAxisSpacing: 12.0,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Random_Image_Card(
-                        pet_data: pet_data, random_pet: random_pet);
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('There was an error, Please try again'),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
+          child: GridView.count(
+            controller: _scrollController,
+            scrollDirection: Axis.vertical,
+            crossAxisCount: 2,
+            mainAxisSpacing: 10.0,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: dataList.map((value) {
+              return const Random_Image_Card();
+            }).toList(),
+          )),
     );
   }
 }
