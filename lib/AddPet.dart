@@ -280,7 +280,7 @@ class _add_petState extends State<add_pet> {
                             ),
                           ),
                           child: const Text(
-                            'Select Images',
+                            'Select Image',
                             style: TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                           onPressed: _openImagePicker),
