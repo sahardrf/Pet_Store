@@ -43,59 +43,64 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              width: 20,
-              child: Image.asset('assets/logo.jpg'),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter Your Username',
-                ),
+    return  GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+      child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                width: 20,
+                child: Image.asset('assets/logo.jpg'),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter Your Password',
-                ),
-              ),
-            ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.indigo,
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter Your Username',
                   ),
-                  child: const Text('Login'),
-                  onPressed: () {
-                    if (nameController.text.isEmpty ||
-                        passwordController.text.isEmpty) {
-                      SignInFailedDialog(
-                          context, "Please enter your username and password.");
-                    } else {
-                      login(nameController.text, passwordController.text);
-                    }
-
-                    // print(nameController.text);
-                    // print(passwordController.text);
-                  },
-                )),
-          ],
-        ));
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: TextField(
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter Your Password',
+                  ),
+                ),
+              ),
+              Container(
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.indigo,
+                    ),
+                    child: const Text('Login'),
+                    onPressed: () {
+                      if (nameController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        SignInFailedDialog(
+                            context, "Please enter your username and password.");
+                      } else {
+                        login(nameController.text, passwordController.text);
+                      }
+    
+                      // print(nameController.text);
+                      // print(passwordController.text);
+                    },
+                  )),
+            ],
+          )),
+    );
   }
 
   login(username, password) async {

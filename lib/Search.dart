@@ -48,139 +48,144 @@ class _SearchState extends State<Search> {
           },
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Text("   "),
-            Align(
-              alignment: Alignment.topCenter,
-              child: ToggleButtons(
-                borderColor: Color.fromARGB(255, 99, 98, 98),
-                fillColor: Color.fromARGB(255, 99, 98, 98),
-                borderWidth: 1,
-                selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
-                selectedColor: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Status',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'ID',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Tags',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    for (int i = 0; i < isSelected.length; i++) {
-                      isSelected[i] = i == index;
-                      print(isSelected);
-                    }
-                  });
-                },
-                isSelected: isSelected,
-              ),
-            ),
-            Container(
-              child: (isSelected[0] == true)
-                  ? DropdownButton(
-                      hint: const Text('Select Status'),
-                      // Initial Value
-                      value: dropdownvalue,
-
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      // Array list of items
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    )
-                  : (isSelected[1] == true)
-                      ? Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: TextField(
-                            controller: mycontroller,
-                            decoration: const InputDecoration(
-                              labelText: 'Enter ID',
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ], // Only numbers can be entered
-                            // Only numbers can be entered
-                          ),
-                      )
-                      : Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: TextField(
-                            controller: mycontroller,
-                            decoration: const InputDecoration(
-                              labelText: 'Enter Tags',
-                              hintText: 'Separate tags with comma',
-                            ),
-                          ),
+      body:  GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Center(
+          child: Column(
+            children: [
+              const Text("   "),
+              Align(
+                alignment: Alignment.topCenter,
+                child: ToggleButtons(
+                  borderColor: Color.fromARGB(255, 99, 98, 98),
+                  fillColor: Color.fromARGB(255, 99, 98, 98),
+                  borderWidth: 1,
+                  selectedBorderColor: Color.fromARGB(255, 99, 98, 98),
+                  selectedColor: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Status',
+                        style: TextStyle(fontSize: 16),
                       ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.indigo),
-                padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 40)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: const BorderSide(
-                      color: Colors.indigo,
-                      width: 2.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'ID',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Tags',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int i = 0; i < isSelected.length; i++) {
+                        isSelected[i] = i == index;
+                        print(isSelected);
+                      }
+                    });
+                  },
+                  isSelected: isSelected,
+                ),
+              ),
+              Container(
+                child: (isSelected[0] == true)
+                    ? DropdownButton(
+                        hint: const Text('Select Status'),
+                        // Initial Value
+                        value: dropdownvalue,
+      
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+      
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      )
+                    : (isSelected[1] == true)
+                        ? Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextField(
+                              controller: mycontroller,
+                              decoration: const InputDecoration(
+                                labelText: 'Enter ID',
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ], // Only numbers can be entered
+                              // Only numbers can be entered
+                            ),
+                        )
+                        : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextField(
+                              controller: mycontroller,
+                              decoration: const InputDecoration(
+                                labelText: 'Enter Tags',
+                                hintText: 'Separate tags with comma',
+                              ),
+                            ),
+                        ),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                  padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 40)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: const BorderSide(
+                        color: Colors.indigo,
+                        width: 2.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              child: const Text(
-                'Search',
-                style: TextStyle(fontSize: 17.0, color: Colors.white),
-              ),
-              onPressed: () {
-                var url = select_url(isSelected, mycontroller.text);
-                print('SEARCH');
-                print(url);
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => PetStoreHomePage(
-                      selectedURL: url,
+                child: const Text(
+                  'Search',
+                  style: TextStyle(fontSize: 17.0, color: Colors.white),
+                ),
+                onPressed: () {
+                  var url = select_url(isSelected, mycontroller.text);
+                  print('SEARCH');
+                  print(url);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => PetStoreHomePage(
+                        selectedURL: url,
+                      ),
                     ),
-                  ),
-                  (route) => false,
-                );
-              },
-            ),
-          ],
+                    (route) => false,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
