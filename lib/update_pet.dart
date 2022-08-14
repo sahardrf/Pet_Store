@@ -359,7 +359,7 @@ class _update_petState extends State<update_pet> {
                       print('Pressed');
 
                       Map data = {
-                        "id": random.nextInt(10000),
+                        "id": widget.id,
 
                         ///random it integer
                         "name": nameController.text,
