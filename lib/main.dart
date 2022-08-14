@@ -5,6 +5,7 @@ import 'package:pet_store/click_game.dart';
 import 'package:pet_store/drag_and_drop_game.dart';
 import 'package:pet_store/dynamic_game.dart';
 import 'package:pet_store/favorite_pet.dart';
+import 'package:pet_store/find_order.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/infinite_scroll_game.dart';
@@ -12,7 +13,7 @@ import 'package:pet_store/pet_survey_game.dart';
 import 'package:pet_store/presentation/my_flutter_app_icons.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
-import 'package:pet_store/widgets/get_store_data.dart';
+import 'package:pet_store/get_active_orders.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:pet_store/widgets/login.dart';
 
@@ -238,6 +239,31 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                 children: <Widget>[
                   TextButton(
                     child: const ListTile(
+                        leading: Icon(Icons.checklist),
+                        title: Text("Active Orders")),
+                    onPressed: () {
+                      if (widget.LoggedIn == false) {
+                        Toast.show(
+                            "Please Log in before placing an order", context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const login(),
+                          ),
+                        );
+                      } else if (widget.LoggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const Get_Store_Active_Orders(),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  TextButton(
+                    child: const ListTile(
                         leading: Icon(Icons.attach_money),
                         title: Text("Place Order")),
                     onPressed: () {
@@ -255,7 +281,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const Get_Store_Data(),
+                                const Get_Store_Active_Orders(),
                           ),
                         );
                       }
@@ -280,7 +306,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const Get_Store_Data(),
+                                const Find_Order(),
                           ),
                         );
                       }
@@ -378,8 +404,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                 ),
                 TextButton(
                   child: const ListTile(
-                      leading: Icon(Icons.title),
-                      title: Text("Dynamic Game")),
+                      leading: Icon(Icons.title), title: Text("Dynamic Game")),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
