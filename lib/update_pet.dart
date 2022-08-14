@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/main.dart';
@@ -8,14 +9,19 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:pet_store/widgets/tag_retrieve_preview.dart';
 import 'utils/utils.dart';
 
 class update_pet extends StatefulWidget {
   var id;
   var name;
   var status;
+  var category;
+  var tags;
 
-  update_pet({this.id, this.name, this.status, Key? key}) : super(key: key);
+  update_pet(
+      {this.id, this.name, this.status, this.category, this.tags, Key? key})
+      : super(key: key);
 
   @override
   _update_petState createState() => _update_petState();
@@ -36,10 +42,26 @@ class _update_petState extends State<update_pet> {
 
   String? base64Image;
   TextEditingController nameController = TextEditingController();
-
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
   late File imageFile;
-
+  late List<dynamic> tags;
   bool isLoading = false;
+
+  void initState() {
+    super.initState();
+    nameController.text = widget.name;
+    categoryController.text = widget.category;
+    tags = widget.tags.where((e) => e != null && e != "").toList();
+    // addTag();
+  }
+
+  void addTag() {
+    setState(() {
+      tags.add(tagController.text);
+      tagController.clear();
+    });
+  }
 
   String? dropdownvalue;
 
@@ -51,6 +73,7 @@ class _update_petState extends State<update_pet> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -126,6 +149,171 @@ class _update_petState extends State<update_pet> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
               ),
+              Card(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      const ListTile(
+                        // leading,
+                        title: Text(
+                          "Category",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextField(
+                        controller: categoryController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Specify your pet's category",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                elevation: 8,
+                shadowColor: Colors.grey.shade300,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.white)),
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const ListTile(
+                        // leading,
+                        title: Text(
+                          "Tags",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: tags.length,
+                          itemBuilder: (_, index) {
+                            print(tags);
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 3.0),
+                              child: GestureDetector(
+                                  child: tagRetrievePreview(tags[index]),
+                                  onTap: () {
+                                    setState(() {
+                                      tags.removeAt(index);
+                                    });
+                                  }),
+                            );
+                          },
+                        ),
+                      ),
+                      TextField(
+                        controller: tagController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Specify your pet's tags",
+                          suffixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.add_circle_outline_sharp,
+                              color: Color.fromARGB(255, 129, 128, 128),
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              addTag();
+                              print(tags);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                elevation: 8,
+                shadowColor: Colors.grey.shade300,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.white)),
+              ),
+              Card(
+                child: Column(
+                  children: [
+                    const ListTile(
+                      title: Text(
+                        "Images",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    (base64Image != null)
+                        ? SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Container(
+                                decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                  image: image(base64Image!).image,
+                                  fit: BoxFit.fill),
+                            )),
+                          )
+                        : SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.grey.shade300,
+                              ),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.grey.shade800,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 100),
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color.fromARGB(255, 129, 128, 128)),
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(horizontal: 20)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: const BorderSide(
+                                  color: Color.fromARGB(255, 129, 128, 128),
+                                  width: 2.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            'Select Image',
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.white),
+                          ),
+                          onPressed: _openImagePicker),
+                    ),
+                  ],
+                ),
+                elevation: 8,
+                shadowColor: Colors.grey.shade300,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.white)),
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 120),
                 child: ElevatedButton(
@@ -160,18 +348,38 @@ class _update_petState extends State<update_pet> {
                       if (nameController.text.isEmpty) {
                         nameController.text = widget.name;
                       }
+                      if (categoryController.text.isEmpty) {
+                        categoryController.text = widget.category;
+                      }
+
                       if (dropdownvalue == null) {
                         dropdownvalue = widget.status;
                       }
-                      print('Pressed');
-                     
-                      var response = await http.post(Uri.parse(
-                          "https://api.training.testifi.io/api/v3/pet/" +
-                              widget.id +
-                              "?" +
-                              "name=${nameController.text}" +
-                              "&status=${dropdownvalue}"));
 
+                      print('Pressed');
+
+                      Map data = {
+                        "id": random.nextInt(10000),
+
+                        ///random it integer
+                        "name": nameController.text,
+                        "category": {
+                          "id": set_category_id(categoryController.text),
+                          "name": categoryController.text,
+                        },
+                        "photoUrls": [base64Image],
+                        "tags": set_tags(tags),
+                        "status": dropdownvalue
+                      };
+                      var body = json.encode(data);
+                      var response = await http.put(
+                          Uri.parse(
+                              "https://api.training.testifi.io/api/v3/pet"),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                          },
+                          body: body);
                       print(response.body);
                       print(response.statusCode);
                       if (response.statusCode == 201 ||

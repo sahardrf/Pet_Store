@@ -13,6 +13,7 @@ class Pet_Info extends StatefulWidget {
   var name;
   var category;
   var status;
+  var tags;
   List<dynamic> photoURL;
   var number_of_photos;
   int current_index = 0;
@@ -24,6 +25,7 @@ class Pet_Info extends StatefulWidget {
       this.status,
       required this.photoURL,
       this.number_of_photos,
+      this.tags,
       Key? key})
       : super(key: key);
 
@@ -114,7 +116,6 @@ class _Pet_InfoState extends State<Pet_Info> {
                                                   255, 255, 174, 0)
                                               : Colors.red),
                                 ),
-                               
                         ],
                       ),
                     ]),
@@ -181,11 +182,15 @@ class _Pet_InfoState extends State<Pet_Info> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  update_pet(id: widget.id, name: widget.name, status: widget.status,),
+                              builder: (BuildContext context) => update_pet(
+                                id: widget.id,
+                                name: widget.name,
+                                status: widget.status,
+                                category: widget.category,
+                                tags: widget.tags,
+                              ),
                             ),
                           );
-                        
                         },
                       ),
                       const SizedBox(width: 20),

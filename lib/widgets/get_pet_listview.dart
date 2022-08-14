@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:pet_store/models/tag.dart';
 import 'package:pet_store/pet_info.dart';
 import '../Search.dart';
 import '../webservice/API.dart';
@@ -51,11 +54,21 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                         itemCount: pet_data!.length,
                         itemBuilder: (context, index) {
                           // print(pet_data![0]['pets']);
+                          print(pet_data.runtimeType);
                           var id = pet_data[index].id.toString();
                           var name = pet_data[index].name.toString();
                           var category = pet_data[index].category.toString();
                           var status = pet_data[index].status.toString();
                           var photoURL = pet_data[index].photoUrls;
+                          var tags = pet_data[index].tags;
+                          final tag_names = [];
+                          for (var i = 0; i < tags.length; i++) {
+                            tag_names.add(tags[i]['name']);
+                          }
+                          final tagNames = tag_names.where((e) => e != null && e != "").toList();
+                          // inspect(tagNames);
+
+
                           var number_of_photos = photoURL.length;
                           // inspect(pet_data[0]['pets'][0].photoUrls[0]);
                           return GestureDetector(
@@ -70,7 +83,10 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                                             status: status,
                                             photoURL: photoURL,
                                             number_of_photos: number_of_photos,
+                                            tags: tagNames,
                                           )));
+                              // inspect(tagNames);
+                              // print(tagNames.runtimeType);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
