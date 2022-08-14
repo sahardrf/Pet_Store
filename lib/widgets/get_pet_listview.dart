@@ -85,8 +85,7 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                                             number_of_photos: number_of_photos,
                                             tags: tagNames,
                                           )));
-                              // inspect(tagNames);
-                              // print(tagNames.runtimeType);
+                              print(photoURL.length);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(

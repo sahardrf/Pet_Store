@@ -2,7 +2,7 @@ class Pet {
   int id = 0;
   String name = '';
   String category = '';
-  List<dynamic>? photoUrls;
+  List<dynamic> photoUrls = [];
   List<dynamic> tags = [];
   String status = '';
 
