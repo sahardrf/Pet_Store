@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:pet_store/models/tag.dart';
 import 'package:pet_store/pet_info.dart';
 import '../Search.dart';
 import '../webservice/API.dart';
@@ -65,9 +64,10 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                           for (var i = 0; i < tags.length; i++) {
                             tag_names.add(tags[i]['name']);
                           }
-                          final tagNames = tag_names.where((e) => e != null && e != "").toList();
+                          final tagNames = tag_names
+                              .where((e) => e != null && e != "")
+                              .toList();
                           // inspect(tagNames);
-
 
                           var number_of_photos = photoURL.length;
                           // inspect(pet_data[0]['pets'][0].photoUrls[0]);

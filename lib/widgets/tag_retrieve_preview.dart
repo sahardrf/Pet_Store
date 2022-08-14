@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:pet_store/models/tag.dart';
 
 class tagRetrievePreview extends StatelessWidget {
   var tag;
