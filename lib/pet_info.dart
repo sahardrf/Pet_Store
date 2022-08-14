@@ -188,6 +188,8 @@ class _Pet_InfoState extends State<Pet_Info> {
                                 status: widget.status,
                                 category: widget.category,
                                 tags: widget.tags,
+                                photoURL: widget.photoURL,
+                                number_of_photos: widget.number_of_photos
                               ),
                             ),
                           );

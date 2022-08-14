@@ -18,9 +18,11 @@ class update_pet extends StatefulWidget {
   var status;
   var category;
   var tags;
+  var photoURL;
+  var number_of_photos;
 
   update_pet(
-      {this.id, this.name, this.status, this.category, this.tags, Key? key})
+      {this.id, this.name, this.status, this.category, this.tags, this.photoURL, this.number_of_photos, Key? key})
       : super(key: key);
 
   @override
@@ -47,14 +49,17 @@ class _update_petState extends State<update_pet> {
   late File imageFile;
   late List<dynamic> tags;
   bool isLoading = false;
+  int number_of_photos=0;
+  List photoURL = [];
 
   void initState() {
     super.initState();
     nameController.text = widget.name;
     categoryController.text = widget.category;
     tags = widget.tags.where((e) => e != null && e != "").toList();
-    // addTag();
-  }
+    number_of_photos = widget.number_of_photos;
+    photoURL = widget.photoURL;
+      }
 
   void addTag() {
     setState(() {
@@ -225,7 +230,9 @@ class _update_petState extends State<update_pet> {
                               size: 30,
                             ),
                             onPressed: () {
-                              addTag();
+                              setState(() {
+                                addTag();
+                              });
                               print(tags);
                             },
                           ),
@@ -350,6 +357,9 @@ class _update_petState extends State<update_pet> {
                       }
                       if (categoryController.text.isEmpty) {
                         categoryController.text = widget.category;
+                      }
+                      if (base64Image==null || base64Image == "") {
+                         base64Image= widget.photoURL[0].toString();
                       }
 
                       if (dropdownvalue == null) {
