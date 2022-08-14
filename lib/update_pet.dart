@@ -62,10 +62,12 @@ class _update_petState extends State<update_pet> {
       }
 
   void addTag() {
-    setState(() {
-      tags.add(tagController.text);
-      tagController.clear();
-    });
+    if (tagController.text.isNotEmpty || tagController.text != null) {
+      setState(() {
+        tags.add(tagController.text);
+        tagController.clear();
+      });
+    }
   }
 
   String? dropdownvalue;
