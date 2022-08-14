@@ -41,3 +41,44 @@ String randomly_select_URL() {
   }
   return url;
 }
+
+int set_category_id(String category_name) {
+  int category_id;
+  if (category_name == 'Cat' || category_name == 'cat') {
+    category_id = 0;
+  } else if (category_name == 'Dog' || category_name == 'dog') {
+    category_id = 1;
+  } else if (category_name == 'Bunny' ||
+      category_name == 'bunny' ||
+      category_name == 'Rabbit' ||
+      category_name == 'rabbit') {
+    category_id = 2;
+  } else if (category_name == 'Fish' || category_name == 'fish') {
+    category_id = 3;
+  } else if (category_name == 'Hedgehog' || category_name == 'hedgehog') {
+    category_id = 4;
+  } else {
+    category_id = 5;
+  }
+  return category_id;
+}
+
+set_tags(List tags) {
+  List<dynamic> tags_json = [];
+  for (int i = 0; i < tags.length; i++) {
+    var temp = {"id": i, "name": tags[i]};
+    tags_json.add(temp);
+  }
+  print(tags_json);
+  return tags_json;
+}
+
+// show_previous_tags(Map tags){
+//   List<dynamic> tags_json = [];
+//   for (int i = 0; i < tags.length; i++) {
+//     var temp = {"id": i, "name": tags[i]};
+//     tags_json.add(temp);
+//   }
+//   print(tags_json);
+//   return tags_json;
+// }
