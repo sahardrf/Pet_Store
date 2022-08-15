@@ -217,8 +217,8 @@ class _Favorite_PetState extends State<Favorite_Pet> {
         _listData.removeAt(oldListIndex!);
         _listData.insert(listIndex!, list);
       },
-      headerBackgroundColor: Color.fromARGB(255, 150, 150, 243),
-      backgroundColor: Color.fromARGB(255, 183, 194, 224),
+      headerBackgroundColor: Color.fromARGB(255, 180, 180, 180),
+      backgroundColor: Color.fromARGB(255, 215, 216, 219),
       header: [
         Expanded(
             child: Padding(
