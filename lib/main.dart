@@ -10,6 +10,7 @@ import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/infinite_scroll_game.dart';
 import 'package:pet_store/pet_survey_game.dart';
+import 'package:pet_store/place_order.dart';
 import 'package:pet_store/presentation/my_flutter_app_icons.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
@@ -124,11 +125,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
         ),
       ),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
+
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
@@ -221,14 +219,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           );
                         }
                       }),
-                  // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
                 ],
-                // onTap: () {
-                //   // Update the state of the app
-                //   // ...
-                //   // Then close the drawer
-                //   Navigator.pop(context);
-                // },
+
               ),
             ),
             Container(
@@ -244,7 +236,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                     onPressed: () {
                       if (widget.LoggedIn == false) {
                         Toast.show(
-                            "Please Log in before placing an order", context);
+                            "Please Log in before visiting active orders", context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -281,7 +273,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const Get_Store_Active_Orders(),
+                                const Place_Order(),
                           ),
                         );
                       }
