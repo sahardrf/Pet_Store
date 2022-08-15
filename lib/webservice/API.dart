@@ -30,7 +30,7 @@ class API {
     }
   }
 
-  static Future<List> get_store_data() async {
+  static Future<List> Get_Store_Active_Orders() async {
     final response = await http.get(
         Uri.parse("https://api.training.testifi.io/api/v3/store/inventory"));
     if (response.statusCode == 200) {
