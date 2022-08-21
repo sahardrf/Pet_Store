@@ -4,6 +4,8 @@ import 'package:pet_store/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'dart:developer';
 
+import 'package:swipe/swipe.dart';
+
 class Random_Card extends StatefulWidget {
   List<dynamic>? pet_data;
   String? dropdownvalue;
@@ -38,22 +40,20 @@ class _Random_CardState extends State<Random_Card> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanUpdate: (details) {
-        if (details.delta.dx > 2) {
-          setState(() {
-            if (0 < widget.current_index) {
-              widget.current_index--;
-            }
-          });
-        }
-        if (details.delta.dx < -2) {
-          setState(() {
-            if (widget.current_index < number_of_photos - 1) {
-              widget.current_index++;
-            }
-          });
-        }
+    return Swipe(
+      onSwipeLeft: () {
+        setState(() {
+          if (widget.current_index < number_of_photos - 1) {
+            widget.current_index++;
+          }
+        });
+      },
+      onSwipeRight: () {
+        setState(() {
+          if (widget.current_index > 0) {
+            widget.current_index--;
+          }
+        });
       },
       child: Column(
         children: [
