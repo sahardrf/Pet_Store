@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/main.dart';
@@ -8,16 +9,27 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:pet_store/widgets/tag_retrieve_preview.dart';
 import 'utils/utils.dart';
 
-class add_pet extends StatefulWidget {
-  const add_pet({Key? key}) : super(key: key);
+class update_pet extends StatefulWidget {
+  var id;
+  var name;
+  var status;
+  var category;
+  var tags;
+  var photoURL;
+  var number_of_photos;
+
+  update_pet(
+      {this.id, this.name, this.status, this.category, this.tags, this.photoURL, this.number_of_photos, Key? key})
+      : super(key: key);
 
   @override
-  _add_petState createState() => _add_petState();
+  _update_petState createState() => _update_petState();
 }
 
-class _add_petState extends State<add_pet> {
+class _update_petState extends State<update_pet> {
   final _picker = ImagePicker();
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
@@ -30,26 +42,32 @@ class _add_petState extends State<add_pet> {
     }
   }
 
-  var random = new Random();
   String? base64Image;
   TextEditingController nameController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController tagController = TextEditingController();
   late File imageFile;
-  List<tagPreview> dynamicList = [];
-  List<String> tags = [];
+  late List<dynamic> tags;
   bool isLoading = false;
+  int number_of_photos=0;
+  List photoURL = [];
+
   void initState() {
     super.initState();
-    dynamicList = [];
-    tags = [];
-  }
+    nameController.text = widget.name;
+    categoryController.text = widget.category;
+    tags = widget.tags.where((e) => e != null && e != "").toList();
+    number_of_photos = widget.number_of_photos;
+    photoURL = widget.photoURL;
+      }
 
   void addTag() {
-    setState(() {
-      tags.add(tagController.text);
-      tagController.clear();
-    });
+    if (tagController.text.isNotEmpty || tagController.text != null) {
+      setState(() {
+        tags.add(tagController.text);
+        tagController.clear();
+      });
+    }
   }
 
   String? dropdownvalue;
@@ -62,10 +80,11 @@ class _add_petState extends State<add_pet> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text('Add a new pet'),
+        title: const Text('Update a pet'),
         leading: GestureDetector(
           child: Icon(
             Icons.arrow_back_ios,
@@ -76,7 +95,8 @@ class _add_petState extends State<add_pet> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
+                builder: (BuildContext context) =>
+                    PetStoreHomePage(LoggedIn: true),
               ),
               (route) => false,
             );
@@ -160,7 +180,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -184,13 +205,16 @@ class _add_petState extends State<add_pet> {
                           shrinkWrap: true,
                           itemCount: tags.length,
                           itemBuilder: (_, index) {
+                            print(tags);
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5.0, vertical: 3.0),
                               child: GestureDetector(
-                                  child: tagPreview(tags[index]),
+                                  child: tagRetrievePreview(tags[index]),
                                   onTap: () {
-                                    tags.removeAt(index);
+                                    setState(() {
+                                      tags.removeAt(index);
+                                    });
                                   }),
                             );
                           },
@@ -208,7 +232,9 @@ class _add_petState extends State<add_pet> {
                               size: 30,
                             ),
                             onPressed: () {
-                              addTag();
+                              setState(() {
+                                addTag();
+                              });
                               print(tags);
                             },
                           ),
@@ -219,7 +245,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -268,8 +295,8 @@ class _add_petState extends State<add_pet> {
                                 const Color.fromARGB(255, 129, 128, 128)),
                             padding: MaterialStateProperty.all(
                                 const EdgeInsets.symmetric(horizontal: 20)),
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: const BorderSide(
@@ -281,7 +308,8 @@ class _add_petState extends State<add_pet> {
                           ),
                           child: const Text(
                             'Select Image',
-                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                           onPressed: _openImagePicker),
                     ),
@@ -289,7 +317,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -314,86 +343,74 @@ class _add_petState extends State<add_pet> {
                     child: isLoading
                         ? const SizedBox(
                             child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white)),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white)),
                             height: 15.0,
                             width: 15.0,
                           )
                         : const Text(
-                            'Add Pet',
-                            style: TextStyle(fontSize: 17.0, color: Colors.white),
+                            'Update Pet',
+                            style:
+                                TextStyle(fontSize: 17.0, color: Colors.white),
                           ),
                     onPressed: () async {
-                      if (nameController.text.isEmpty ||
-                          categoryController.text.isEmpty ||
-                          dropdownvalue! == null ||
-                          tags.isEmpty) {
-                        setState(() => isLoading = false);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Error'),
-                              content: Text('Please fill all the fields'),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text('Ok'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
+                      if (nameController.text.isEmpty) {
+                        nameController.text = widget.name;
+                      }
+                      if (categoryController.text.isEmpty) {
+                        categoryController.text = widget.category;
+                      }
+                      if (base64Image==null || base64Image == "") {
+                         base64Image= widget.photoURL[0].toString();
+                      }
+
+                      if (dropdownvalue == null) {
+                        dropdownvalue = widget.status;
+                      }
+
+                      print('Pressed');
+
+                      Map data = {
+                        "id": widget.id,
+
+                        ///random it integer
+                        "name": nameController.text,
+                        "category": {
+                          "id": set_category_id(categoryController.text),
+                          "name": categoryController.text,
+                        },
+                        "photoUrls": [base64Image],
+                        "tags": set_tags(tags),
+                        "status": dropdownvalue
+                      };
+                      var body = json.encode(data);
+                      var response = await http.put(
+                          Uri.parse(
+                              "https://api.training.testifi.io/api/v3/pet"),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
                           },
+                          body: body);
+                      print(response.body);
+                      print(response.statusCode);
+                      if (response.statusCode == 201 ||
+                          response.statusCode == 200) {
+                        print('success');
+                        Toast.show("Pet is successfully updated.", context);
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                PetStoreHomePage(LoggedIn: true),
+                          ),
+                          (route) => false,
                         );
                       } else {
-                        setState(() => isLoading = true);
-                        print('Pressed');
-                        // handle categories and tangs as list of json objects
-      
-                        Map data = {
-                          "id": random.nextInt(10000),
-      
-                          ///random it integer
-                          "name": nameController.text,
-                          "category": {
-                            "id": set_category_id(categoryController.text),
-                            "name": categoryController.text,
-                          },
-                          "photoUrls": [base64Image],
-                          "tags": set_tags(tags),
-                          "status": dropdownvalue
-                        };
-                        var body = json.encode(data);
-                        var response = await http.post(
-                            Uri.parse(
-                                "https://api.training.testifi.io/api/v3/pet"),
-                            headers: {
-                              "Content-Type": "application/json",
-                              "Accept": "application/json"
-                            },
-                            body: body);
-                        // print(response.body);
-                        // print(response.statusCode);
-                        if (response.statusCode == 201 ||
-                            response.statusCode == 200) {
-                          setState(() => isLoading = false);
-                          print('success');
-                          Toast.show("Pet is successfully created.", context);
-      
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
-                            ),
-                            (route) => false,
-                          );
-                        } else {
-                          setState(() => isLoading = false);
-                          Toast.show(
-                              "ERROR! Creating a new pet failed. Please try again.",
-                              context);
-                        }
+                        Toast.show(
+                            "ERROR! Updating pet failed. Please try again.",
+                            context);
                       }
                     }),
               ),
@@ -403,5 +420,4 @@ class _add_petState extends State<add_pet> {
       ),
     );
   }
-
 }

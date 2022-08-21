@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:pet_store/AddPet.dart';
 import 'package:pet_store/click_game.dart';
 import 'package:pet_store/drag_and_drop_game.dart';
+import 'package:pet_store/dynamic_game.dart';
+import 'package:pet_store/favorite_pet.dart';
+import 'package:pet_store/find_order.dart';
 import 'package:pet_store/guess_game.dart';
 import 'package:pet_store/Search.dart';
 import 'package:pet_store/infinite_scroll_game.dart';
 import 'package:pet_store/pet_survey_game.dart';
+import 'package:pet_store/place_order.dart';
 import 'package:pet_store/presentation/my_flutter_app_icons.dart';
 import 'package:pet_store/widgets/get_pet_cards.dart';
 import 'package:pet_store/widgets/get_pet_listview.dart';
-import 'package:pet_store/widgets/get_store_data.dart';
+import 'package:pet_store/get_active_orders.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:pet_store/widgets/login.dart';
 
@@ -121,11 +125,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
         ),
       ),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
+
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
@@ -218,14 +219,8 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           );
                         }
                       }),
-                  // ListTile(leading: Icon(Icons.add),title:Text("Add a new Pet"))
                 ],
-                // onTap: () {
-                //   // Update the state of the app
-                //   // ...
-                //   // Then close the drawer
-                //   Navigator.pop(context);
-                // },
+
               ),
             ),
             Container(
@@ -234,6 +229,31 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                     const Icon(Icons.local_grocery_store, color: Colors.black),
                 title: const Text('Store'),
                 children: <Widget>[
+                  TextButton(
+                    child: const ListTile(
+                        leading: Icon(Icons.checklist),
+                        title: Text("Active Orders")),
+                    onPressed: () {
+                      if (widget.LoggedIn == false) {
+                        Toast.show(
+                            "Please Log in before visiting active orders", context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const login(),
+                          ),
+                        );
+                      } else if (widget.LoggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const Get_Store_Active_Orders(),
+                          ),
+                        );
+                      }
+                    },
+                  ),
                   TextButton(
                     child: const ListTile(
                         leading: Icon(Icons.attach_money),
@@ -253,7 +273,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const Get_Store_Data(),
+                                const Place_Order(),
                           ),
                         );
                       }
@@ -278,7 +298,7 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const Get_Store_Data(),
+                                const Find_Order(),
                           ),
                         );
                       }
@@ -370,7 +390,28 @@ class _PetStoreHomePageState extends State<PetStoreHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Infinite_Scroll_Game(),
+                      builder: (BuildContext context) => Infinite_Scroll_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.title), title: Text("Dynamic Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Dynamic_Game(),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  child: const ListTile(
+                      leading: Icon(Icons.star),
+                      title: Text("Favorite Pet Game")),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Favorite_Pet(),
                     ),
                   ),
                 ),

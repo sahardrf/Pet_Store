@@ -1,18 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/models/store.dart';
-import '../main.dart';
-import '../webservice/API.dart';
+import 'main.dart';
+import 'webservice/API.dart';
 
-class Get_Store_Data extends StatelessWidget {
-  const Get_Store_Data({Key? key}) : super(key: key);
+class Get_Store_Active_Orders extends StatelessWidget {
+  const Get_Store_Active_Orders({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text('Add a new pet'),
+        title: const Text('Active Orders'),
         leading: GestureDetector(
           child: Icon(
             Icons.arrow_back_ios,
@@ -32,7 +32,7 @@ class Get_Store_Data extends StatelessWidget {
       ),
       body: Center(
         child: FutureBuilder<List>(
-          future: API.get_store_data(),
+          future: API.Get_Store_Active_Orders(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List? store_data = snapshot.data;
