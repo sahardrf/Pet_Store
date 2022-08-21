@@ -67,7 +67,7 @@ class _Pet_InfoState extends State<Pet_Info> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onPanUpdate: (details) {
-                if (details.delta.dx > -10) {
+                if (details.delta.dx > 2) {
                   setState(() {
                     if (0 < widget.current_index) {
                       widget.current_index--;
@@ -77,7 +77,7 @@ class _Pet_InfoState extends State<Pet_Info> {
                     }
                   });
                 }
-                if (details.delta.dx < 10) {
+                if (details.delta.dx < -2) {
                   setState(() {
                     if (widget.current_index < widget.number_of_photos - 1) {
                       widget.current_index++;

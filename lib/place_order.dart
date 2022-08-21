@@ -3,7 +3,6 @@ import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pet_store/main.dart';
-import 'package:pet_store/widgets/number_field_with_buttons.dart';
 import 'package:pet_store/widgets/tag_preview.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
