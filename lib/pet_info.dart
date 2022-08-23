@@ -5,6 +5,7 @@ import 'package:pet_store/update_pet.dart';
 import 'package:pet_store/utils/utils.dart';
 import 'package:pet_store/webservice/API.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:swipe/swipe.dart';
 import 'main.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,27 +65,20 @@ class _Pet_InfoState extends State<Pet_Info> {
             SizedBox(height: 80),
 
             // SizedBox(height: 30),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onPanUpdate: (details) {
-                if (details.delta.dx > 2) {
-                  setState(() {
-                    if (0 < widget.current_index) {
-                      widget.current_index--;
-                      print(widget.current_index);
-                      print(widget.photoURL[widget.current_index]);
-
-                    }
-                  });
-                }
-                if (details.delta.dx < -2) {
-                  setState(() {
-                    if (widget.current_index < widget.number_of_photos - 1) {
-                      widget.current_index++;
-                      print(widget.photoURL[widget.current_index]);
-                    }
-                  });
-                }
+            Swipe(
+              onSwipeLeft: () {
+                setState(() {
+                  if (widget.current_index < widget.number_of_photos - 1) {
+                    widget.current_index++;
+                  }
+                });
+              },
+              onSwipeRight: () {
+                setState(() {
+                  if (widget.current_index > 0) {
+                    widget.current_index--;
+                  }
+                });
               },
               child: Column(
                 children: [
@@ -188,14 +182,13 @@ class _Pet_InfoState extends State<Pet_Info> {
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) => update_pet(
-                                id: widget.id,
-                                name: widget.name,
-                                status: widget.status,
-                                category: widget.category,
-                                tags: widget.tags,
-                                photoURL: widget.photoURL,
-                                number_of_photos: widget.number_of_photos
-                              ),
+                                  id: widget.id,
+                                  name: widget.name,
+                                  status: widget.status,
+                                  category: widget.category,
+                                  tags: widget.tags,
+                                  photoURL: widget.photoURL,
+                                  number_of_photos: widget.number_of_photos),
                             ),
                           );
                         },

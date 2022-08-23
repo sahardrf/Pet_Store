@@ -14,19 +14,19 @@ class _Dynamic_GameState extends State<Dynamic_Game> {
   TextEditingController nameController = TextEditingController();
   List<String> names = [];
   bool isLoading = false;
-    List<Dynamic_Game_Preview> dynamicList = [];
+  List<Dynamic_Game_Preview> dynamicList = [];
   void initState() {
     super.initState();
     dynamicList = [];
     names = [];
   }
 
-  void addNames() {
-    setState(() {
-      names.add(nameController.text);
-      nameController.clear();
-    });
-  }
+  // void addNames() {
+  //     if (names.length == 1) {
+  //       names = [];
+  //     }
+  //     names.add(nameController.text);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,62 +51,49 @@ class _Dynamic_GameState extends State<Dynamic_Game> {
           },
         ),
       ),
-      body:  GestureDetector(
+      body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Center(
-          child: Column(children: <Widget>[
-            SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30),
-                  child: TextField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter a Pet Name',
-                    ),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                child: TextField(
+                  controller: nameController,
+                  onChanged: (value) {
+                    setState(() {
+                      if (names.length == 1){
+                        names = [];
+                      }
+                      names.add(nameController.text);
+              
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Enter a Pet Name',
                   ),
                 ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 40)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      side: const BorderSide(
-                        color: Colors.indigo,
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                ),
-                child: const Text(
-                  'GO!',
-                  style: TextStyle(fontSize: 17.0, color: Colors.white),
-                ),
-                onPressed: () {
-                  addNames();
-                },
               ),
+              SizedBox(height: 10),
               Flexible(
-                        fit: FlexFit.loose,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: names.length,
-                          itemBuilder: (_, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.0, vertical: 3.0),
-                              child: Dynamic_Game_Preview(names[index]),
-                            );
-                          },
-                        ),
-                      ),
-              ],
-            ),
+                fit: FlexFit.loose,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: names.length,
+                  itemBuilder: (_, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5.0, vertical: 3.0),
+                      child: Dynamic_Game_Preview(nameController.text),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -19,12 +19,28 @@ class Guess_Game extends StatefulWidget {
 
 class _Guess_GameState extends State<Guess_Game> {
   String? dropdownvalue;
-
+  var GuessGameFuture;
+  var init_random_url;
   var items = ['Bunny', 'Fish', 'Hedgehog', 'Kitty', 'Puppy'];
   var dropDownIsSelected = false;
 
+  void initState() {
+    super.initState();
+    init_random_url = randomly_select_URL();
+    GuessGameFuture = API.get_pets(init_random_url);
+  }
+
+  void requestAgain() {
+    setState(() {
+      GuessGameFuture = API.get_pets(randomly_select_URL());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    GuessGameFuture = API.get_pets(randomly_select_URL());
+    print("BUILD     "+GuessGameFuture.toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -71,11 +87,11 @@ class _Guess_GameState extends State<Guess_Game> {
                 );
               }).toList(),
               onChanged: (String? newValue) {
-                if (dropdownvalue == null){
-                setState(() {
-                  dropdownvalue = newValue!;
-                  dropDownIsSelected = true;
-                });
+                if (dropdownvalue == null) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                    dropDownIsSelected = true;
+                  });
                 } else {
                   Toast.show("Press Remove to Play again.", context);
                 }
@@ -84,30 +100,50 @@ class _Guess_GameState extends State<Guess_Game> {
             const Padding(
                 padding: EdgeInsets.all(1.0),
                 child: Text("                        ")),
-            (dropDownIsSelected == true)
-                ? FutureBuilder<List<dynamic>>(
-                    future: API.get_pets(randomly_select_URL()),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        List<dynamic>? pet_data = snapshot.data;
+            if (dropDownIsSelected == true)
+              FutureBuilder<List<dynamic>>(
+                future: GuessGameFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<dynamic>? pet_data = snapshot.data;
 
-                        if (dropDownIsSelected == true) {
-                          var number_of_parameters = snapshot.data!.length;
-                          var random_pet = random.nextInt(number_of_parameters);
+                    if (dropDownIsSelected == true) {
+                      var number_of_parameters = snapshot.data!.length;
+                      var random_pet = random.nextInt(number_of_parameters);
+                      var category = pet_data![random_pet].category.toString();
+                      var photoURL = pet_data![random_pet].photoUrls;
+                      if (checkCategoryInList(category, items) &&
+                          photoURL.length != 0) {
+                        print(category);
+                        print(photoURL);
+                        print(photoURL.length);
 
-                          return Random_Card(pet_data: pet_data, random_pet: random_pet,dropdownvalue: dropdownvalue);
+                        return Random_Card(
+                            pet_data: pet_data,
+                            random_pet: random_pet,
+                            dropdownvalue: dropdownvalue);
+                      } else {
+                        if (photoURL.length == 0) {
+                          print(" NO PHOTO SUBMITTED FOR THIS PET");
+                        } else {
+                          print(category + "NOT IN CATEGORY");
                         }
-                      } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          requestAgain();
+                        });
                       }
-                      return const CircularProgressIndicator();
-                    },
-                  )
-                //check if category and dropdownvalue are equal or not
-                : const Text(
-                    "Please select your guess",
-                    style: TextStyle(fontSize: 17, color: Colors.indigo),
-                  ),
+                    }
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return const CircularProgressIndicator();
+                },
+              )
+            else
+              const Text(
+                "Please select your guess",
+                style: TextStyle(fontSize: 17, color: Colors.indigo),
+              ),
             (dropDownIsSelected == true)
                 ? ElevatedButton(
                     style: ElevatedButton.styleFrom(

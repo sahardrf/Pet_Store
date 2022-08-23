@@ -19,58 +19,63 @@ class _Random_Image_CardState extends State<Random_Image_Card> {
   var number_of_photos;
   var selectedImage;
   var random_URL;
+  var GameFuture;
+
+  void requestAgain() {
+    setState(() {
+      GameFuture = API.get_pets(randomly_select_URL());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    random_URL = randomly_select_URL();
+    GameFuture = API.get_pets(randomly_select_URL());
     return FutureBuilder<List<dynamic>>(
-      future: API.get_pets(random_URL),
+      future: GameFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<dynamic>? pet_data = snapshot.data;
-
           var number_of_parameters = snapshot.data!.length;
           var random_pet = random.nextInt(number_of_parameters);
           photoURL = pet_data![random_pet].photoUrls;
-          number_of_photos = photoURL.length;
-          selectedImage = random.nextInt(number_of_photos);
 
-          return Column(
-            children: [
-              SizedBox(
-                height: 180,
-                width: 180,
-                child: Card(
-                  child: Container(
-                    decoration: (photoURL.length != 0)
-                        ? BoxDecoration(
-                            image: DecorationImage(
-                                alignment: Alignment.center,
-                                image: image(photoURL[selectedImage]).image,
-                                fit: BoxFit.scaleDown),
-                          )
-                        : const BoxDecoration(
-                            image: DecorationImage(
-                                alignment: Alignment.center,
-                                image: NetworkImage(
-                                    "https://cdn-cziplee-estore.azureedge.net//cache/no_image_uploaded-253x190.png"),
-                                fit: BoxFit.scaleDown),
-                          ),
-                    child: Text(""),
+          if (photoURL.length != 0) {
+            number_of_photos = photoURL.length;
+            print(photoURL);
+            print(photoURL.length);
+            selectedImage = random.nextInt(number_of_photos);
+
+            return Column(
+              children: [
+                SizedBox(
+                  height: 180,
+                  width: 180,
+                  child: Card(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            alignment: Alignment.center,
+                            image: image(photoURL[selectedImage]).image,
+                            fit: BoxFit.scaleDown),
+                      ),
+                      child: Text(""),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
+              ],
+            );
+          } else {
+            if (photoURL.length == 0) {
+              print(" NO PHOTO SUBMITTED FOR THIS PET");
+            }
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              requestAgain();
+            });
+          }
         } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('There was an error, Please try again'),
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return Text("${snapshot.error}");
         }
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
