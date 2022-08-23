@@ -86,6 +86,7 @@ class _Get_Pet_ListState extends State<Get_Pet_List> {
                                             tags: tagNames,
                                           )));
                               print(photoURL.length);
+                              print(photoURL);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(

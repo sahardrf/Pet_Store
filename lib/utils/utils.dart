@@ -73,12 +73,16 @@ set_tags(List tags) {
   return tags_json;
 }
 
-// show_previous_tags(Map tags){
-//   List<dynamic> tags_json = [];
-//   for (int i = 0; i < tags.length; i++) {
-//     var temp = {"id": i, "name": tags[i]};
-//     tags_json.add(temp);
-//   }
-//   print(tags_json);
-//   return tags_json;
-// }
+bool equalsIgnoreCase(String string1, String string2) {
+  return string1?.toLowerCase() == string2?.toLowerCase();
+}
+
+bool checkCategoryInList(String string1, List list) {
+  for (int i = 0; i < list.length; i++) {
+    if (equalsIgnoreCase(string1, list[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+

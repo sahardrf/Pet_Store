@@ -25,7 +25,7 @@ class _Random_CardState extends State<Random_Card> {
   var name;
   var category;
   var status;
-  List<dynamic> photoURL = [];
+  List<dynamic>? photoURL;
   var number_of_photos;
 
   @override
@@ -35,7 +35,7 @@ class _Random_CardState extends State<Random_Card> {
     category = widget.pet_data![widget.random_pet].category.toString();
     status = widget.pet_data![widget.random_pet].status.toString();
     photoURL = widget.pet_data![widget.random_pet].photoUrls;
-    number_of_photos = photoURL.length;
+    number_of_photos = photoURL!.length;
   }
 
   @override
@@ -103,11 +103,11 @@ class _Random_CardState extends State<Random_Card> {
             width: 250,
             child: Card(
               child: Container(
-                decoration: (photoURL.length != 0)
+                decoration: (photoURL!.length != 0 || photoURL != null)
                     ? BoxDecoration(
                         image: DecorationImage(
                             alignment: Alignment.bottomCenter,
-                            image: image(photoURL[widget.current_index]).image,
+                            image: image(photoURL![widget.current_index]).image,
                             fit: BoxFit.cover),
                       )
                     : const BoxDecoration(
