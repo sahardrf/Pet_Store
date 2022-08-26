@@ -13,19 +13,25 @@ class login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text('Log In'),
-          leading: GestureDetector(
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-            },
+        backgroundColor: Colors.indigo,
+        title: const Text('Dynamic Game'),
+        leading: GestureDetector(
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
           ),
+          onTap: () {
+            // Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const HomePage(),
+              ),
+              (route) => false,
+            );
+          },
         ),
+      ),
         body: const MyStatefulWidget());
   }
 }
