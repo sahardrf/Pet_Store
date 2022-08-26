@@ -18,12 +18,15 @@ class Survey_Game extends StatefulWidget {
 
 class _Survey_GameState extends State<Survey_Game> {
   DateTime selectedDate = DateTime.now();
+  TextEditingController choiceController = TextEditingController();
+
   bool isSwitched = false;
   bool isDateSelected = false;
   bool value1 = false;
   bool value2 = false;
   bool value3 = false;
   int value = 0;
+  bool owningSelection = false;
   int? _groupValue;
   String? dropdownvalue;
   var items = [
@@ -48,7 +51,7 @@ class _Survey_GameState extends State<Survey_Game> {
         final bytes = File(pickedImage.path).readAsBytesSync();
         base64Image = "data:image/png;base64," + base64Encode(bytes);
         fileName = pickedImage.path.split('/').last;
-        fileName = fileName.replaceRange(0,12,"");
+        fileName = fileName.replaceRange(0, 12, "");
         print(fileName);
       });
     }
@@ -89,7 +92,7 @@ class _Survey_GameState extends State<Survey_Game> {
           },
         ),
       ),
-      body:  GestureDetector(
+      body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
@@ -132,7 +135,8 @@ class _Survey_GameState extends State<Survey_Game> {
                 padding: EdgeInsets.all(10.0),
                 child: Text(
                     "Please Select all names below, you might consider using for your next pet:",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -237,15 +241,59 @@ class _Survey_GameState extends State<Survey_Game> {
                   },
                 ),
               ),
+              (_groupValue == 2)
+                  ? Column(
+                      children: [
+                        (_groupValue == 2 && choiceController.text.isEmpty)
+                            ? const Padding(
+                              padding: EdgeInsets.only(left:10.0),
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    '*Required Field',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                            )
+                            : const Text(''),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          child: TextField(
+                            controller: choiceController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'My Choice',
+                            ),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(''),
               const Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 5),
                   child: Text("What kind of pet do you currently own?",
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 ),
               ),
+              (owningSelection == false)
+                  ? const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          "*Required Field",
+                          style: TextStyle(fontSize: 15, color: Colors.red),
+                        ),
+                      ))
+                  : Text(""),
               DropdownButton(
                 hint: const Text('I own a ...'),
                 value: dropdownvalue,
@@ -259,6 +307,7 @@ class _Survey_GameState extends State<Survey_Game> {
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownvalue = newValue!;
+                    owningSelection = true;
                   });
                 },
               ),
@@ -328,10 +377,12 @@ class _Survey_GameState extends State<Survey_Game> {
               (isSwitched == true)
                   ? ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
                         padding: MaterialStateProperty.all(
                             const EdgeInsets.symmetric(horizontal: 40)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: const BorderSide(
@@ -375,32 +426,75 @@ class _Survey_GameState extends State<Survey_Game> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Done'),
-                        content:
-                            const Text('Survey has been successfully submitted.'),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              // Navigator.of(context).pop();
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      PetStoreHomePage(),
-                                ),
-                                (route) => false,
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  if(_groupValue == 2 && choiceController.text.isEmpty){
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text(
+                              'Please enter your choice of pet'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                // Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                  else if (owningSelection == false) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text(
+                              'Please make sure you have selected your pet type'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                // Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Done'),
+                          content: const Text(
+                              'Survey has been successfully submitted.'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                // Navigator.of(context).pop();
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        PetStoreHomePage(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
               )
             ]),
