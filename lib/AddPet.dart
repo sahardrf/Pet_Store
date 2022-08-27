@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/main.dart';
@@ -9,6 +10,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'utils/utils.dart';
+import 'package:flutter/services.dart';
 
 class add_pet extends StatefulWidget {
   const add_pet({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class add_pet extends StatefulWidget {
 
 class _add_petState extends State<add_pet> {
   final _picker = ImagePicker();
+
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.gallery);
@@ -76,7 +79,8 @@ class _add_petState extends State<add_pet> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
+                builder: (BuildContext context) =>
+                    PetStoreHomePage(LoggedIn: true),
               ),
               (route) => false,
             );
@@ -160,7 +164,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -219,7 +224,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -268,8 +274,8 @@ class _add_petState extends State<add_pet> {
                                 const Color.fromARGB(255, 129, 128, 128)),
                             padding: MaterialStateProperty.all(
                                 const EdgeInsets.symmetric(horizontal: 20)),
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: const BorderSide(
@@ -281,7 +287,8 @@ class _add_petState extends State<add_pet> {
                           ),
                           child: const Text(
                             'Select Image',
-                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                           onPressed: _openImagePicker),
                     ),
@@ -289,7 +296,8 @@ class _add_petState extends State<add_pet> {
                 ),
                 elevation: 8,
                 shadowColor: Colors.grey.shade300,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.white)),
@@ -314,14 +322,15 @@ class _add_petState extends State<add_pet> {
                     child: isLoading
                         ? const SizedBox(
                             child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white)),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white)),
                             height: 15.0,
                             width: 15.0,
                           )
                         : const Text(
                             'Add Pet',
-                            style: TextStyle(fontSize: 17.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 17.0, color: Colors.white),
                           ),
                     onPressed: () async {
                       if (nameController.text.isEmpty ||
@@ -349,11 +358,20 @@ class _add_petState extends State<add_pet> {
                       } else {
                         setState(() => isLoading = true);
                         print('Pressed');
+                        print(base64Image);
                         // handle categories and tangs as list of json objects
-      
+                        if (base64Image == null) {
+                          print("NO IMAGE");
+
+                          ByteData bytes = await rootBundle
+                              .load('assets/petProfile.png');
+                          var buffer = bytes.buffer;
+                          base64Image = base64.encode(Uint8List.view(buffer));
+                        }
+
                         Map data = {
                           "id": random.nextInt(10000),
-      
+
                           ///random it integer
                           "name": nameController.text,
                           "category": {
@@ -379,14 +397,32 @@ class _add_petState extends State<add_pet> {
                             response.statusCode == 200) {
                           setState(() => isLoading = false);
                           print('success');
-                          Toast.show("Pet is successfully created.", context);
-      
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => PetStoreHomePage(LoggedIn: true),
-                            ),
-                            (route) => false,
+                          // Toast.show("Pet is successfully created.", context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Pet Created'),
+                                content:
+                                    const Text('Pet is successfully created.'),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: const Text('Ok'),
+                                    onPressed: () {
+                                      // Navigator.of(context).pop();
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              PetStoreHomePage(LoggedIn: true),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         } else {
                           setState(() => isLoading = false);
@@ -403,5 +439,4 @@ class _add_petState extends State<add_pet> {
       ),
     );
   }
-
 }

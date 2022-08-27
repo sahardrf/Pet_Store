@@ -124,7 +124,7 @@ class _Pet_InfoState extends State<Pet_Info> {
                     width: 250,
                     child: Card(
                       child: Container(
-                        decoration: (widget.photoURL.length != 0)
+                        decoration: (widget.photoURL[0] != null)
                             ? BoxDecoration(
                                 image: DecorationImage(
                                     alignment: Alignment.bottomCenter,
