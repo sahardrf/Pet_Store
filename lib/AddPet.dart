@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:double_back_to_close/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_store/main.dart';
@@ -9,6 +10,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'utils/utils.dart';
+import 'package:flutter/services.dart';
 
 class add_pet extends StatefulWidget {
   const add_pet({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class add_pet extends StatefulWidget {
 
 class _add_petState extends State<add_pet> {
   final _picker = ImagePicker();
+
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.gallery);
@@ -355,7 +358,16 @@ class _add_petState extends State<add_pet> {
                       } else {
                         setState(() => isLoading = true);
                         print('Pressed');
+                        print(base64Image);
                         // handle categories and tangs as list of json objects
+                        if (base64Image == null) {
+                          print("NO IMAGE");
+
+                          ByteData bytes = await rootBundle
+                              .load('assets/petProfile.png');
+                          var buffer = bytes.buffer;
+                          base64Image = base64.encode(Uint8List.view(buffer));
+                        }
 
                         Map data = {
                           "id": random.nextInt(10000),
@@ -391,8 +403,8 @@ class _add_petState extends State<add_pet> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('Pet Created'),
-                                content: const Text(
-                                    'Pet is successfully created.'),
+                                content:
+                                    const Text('Pet is successfully created.'),
                                 actions: <Widget>[
                                   FlatButton(
                                     child: const Text('Ok'),
