@@ -435,7 +435,7 @@ class _Survey_GameState extends State<Survey_Game> {
                           content: const Text(
                               'Please enter your choice of pet'),
                           actions: <Widget>[
-                            FlatButton(
+                            ElevatedButton(
                               child: const Text('Ok'),
                               onPressed: () {
                                 // Navigator.of(context).pop();
@@ -456,7 +456,7 @@ class _Survey_GameState extends State<Survey_Game> {
                           content: const Text(
                               'Please make sure you have selected your pet type'),
                           actions: <Widget>[
-                            FlatButton(
+                            ElevatedButton(
                               child: const Text('Ok'),
                               onPressed: () {
                                 // Navigator.of(context).pop();
@@ -476,7 +476,7 @@ class _Survey_GameState extends State<Survey_Game> {
                           content: const Text(
                               'Survey has been successfully submitted.'),
                           actions: <Widget>[
-                            FlatButton(
+                            ElevatedButton(
                               child: const Text('Ok'),
                               onPressed: () {
                                 // Navigator.of(context).pop();

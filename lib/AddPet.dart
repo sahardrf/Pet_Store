@@ -345,7 +345,7 @@ class _add_petState extends State<add_pet> {
                               title: Text('Error'),
                               content: Text('Please fill all the fields'),
                               actions: <Widget>[
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text('Ok'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -406,7 +406,7 @@ class _add_petState extends State<add_pet> {
                                 content:
                                     const Text('Pet is successfully created.'),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  ElevatedButton(
                                     child: const Text('Ok'),
                                     onPressed: () {
                                       // Navigator.of(context).pop();
