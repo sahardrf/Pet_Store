@@ -14,7 +14,7 @@ class login extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text('Dynamic Game'),
+        title: const Text('Login'),
         leading: GestureDetector(
           child: const Icon(
             Icons.arrow_back_ios,
