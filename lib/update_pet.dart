@@ -397,7 +397,9 @@ class _update_petState extends State<update_pet> {
                       if (response.statusCode == 201 ||
                           response.statusCode == 200) {
                         print('success');
-                        Toast.show("Pet is successfully updated.", context);
+                        Toast.show(
+                            "Pet updated sucessfully.",
+                            context, duration: 5);
 
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -410,7 +412,7 @@ class _update_petState extends State<update_pet> {
                       } else {
                         Toast.show(
                             "ERROR! Updating pet failed. Please try again.",
-                            context);
+                            context, duration: 5);
                       }
                     }),
               ),
