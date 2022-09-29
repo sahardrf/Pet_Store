@@ -56,6 +56,7 @@ class _update_petState extends State<update_pet> {
     super.initState();
     nameController.text = widget.name;
     categoryController.text = widget.category;
+    dropdownvalue = widget.status;
     tags = widget.tags.where((e) => e != null && e != "").toList();
     number_of_photos = widget.number_of_photos;
     photoURL = widget.photoURL;
