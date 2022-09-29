@@ -335,8 +335,7 @@ class _add_petState extends State<add_pet> {
                     onPressed: () async {
                       if (nameController.text.isEmpty ||
                           categoryController.text.isEmpty ||
-                          dropdownvalue! == null ||
-                          tags.isEmpty) {
+                          dropdownvalue == null) {
                         setState(() => isLoading = false);
                         showDialog(
                           context: context,
