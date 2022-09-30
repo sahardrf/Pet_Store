@@ -21,13 +21,6 @@ class _Dynamic_GameState extends State<Dynamic_Game> {
     names = [];
   }
 
-  // void addNames() {
-  //     if (names.length == 1) {
-  //       names = [];
-  //     }
-  //     names.add(nameController.text);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +33,6 @@ class _Dynamic_GameState extends State<Dynamic_Game> {
             color: Colors.white,
           ),
           onTap: () {
-            // Navigator.pop(context);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

@@ -86,3 +86,9 @@ bool checkCategoryInList(String string1, List list) {
   return false;
 }
 
+  String checkTextField(String text){
+    String checkedString;
+    checkedString = text.replaceAll(" ", "");
+    return checkedString;
+  }
+

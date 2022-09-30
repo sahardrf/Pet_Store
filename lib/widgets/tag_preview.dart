@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class tagPreview extends StatelessWidget {
   String? tag;
+  void Function(dynamic tag) onTapDelete;
 
-  tagPreview(this.tag, {Key? key}) : super(key: key);
+  tagPreview(this.tag, {Key? key, required this.onTapDelete}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,7 @@ class tagPreview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: GestureDetector(
-                    onTap: () {
-                      print('Delete tag button tapped');
-                    },
+                    onTap: () => onTapDelete(tag),
                     child: const CircleAvatar(
                         radius: 8,
                         backgroundColor: Color.fromARGB(255, 117, 112, 112),

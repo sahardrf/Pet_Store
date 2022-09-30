@@ -63,7 +63,8 @@ class _update_petState extends State<update_pet> {
       }
 
   void addTag() {
-    if (tagController.text.isNotEmpty || tagController.text != null) {
+    String checkedString = checkTextField(tagController.text);
+    if (checkedString.length>0 && tagController.text.isNotEmpty && tagController.text != null) {
       setState(() {
         tags.add(tagController.text);
         tagController.clear();
@@ -211,12 +212,12 @@ class _update_petState extends State<update_pet> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5.0, vertical: 3.0),
                               child: GestureDetector(
-                                  child: tagRetrievePreview(tags[index]),
-                                  onTap: () {
+                                  child: tagRetrievePreview(tags[index], onTapDelete: (tag) {
                                     setState(() {
                                       tags.removeAt(index);
                                     });
                                   }),
+                                  ),
                             );
                           },
                         ),
