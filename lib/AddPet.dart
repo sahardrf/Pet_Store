@@ -49,10 +49,13 @@ class _add_petState extends State<add_pet> {
   }
 
   void addTag() {
-    setState(() {
-      tags.add(tagController.text);
-      tagController.clear();
-    });
+    String checkedString = checkTextField(tagController.text);
+    if (checkedString.length>0 && tagController.text.isNotEmpty && tagController.text != null) {
+      setState(() {
+        tags.add(tagController.text);
+        tagController.clear();
+      });
+  }
   }
 
   String? dropdownvalue;
@@ -193,10 +196,12 @@ class _add_petState extends State<add_pet> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5.0, vertical: 3.0),
                               child: GestureDetector(
-                                  child: tagPreview(tags[index]),
-                                  onTap: () {
-                                    tags.removeAt(index);
+                                  child: tagPreview(tags[index], onTapDelete: (tag) {
+                                    setState(() {
+                                      tags.removeAt(index);
+                                    });
                                   }),
+                                  ),
                             );
                           },
                         ),
